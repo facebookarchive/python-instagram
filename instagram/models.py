@@ -1,3 +1,5 @@
+from helper import timestamp_to_datetime
+
 class Image(object):
     
     def __init__(self, url, width, height):
@@ -12,8 +14,8 @@ class Media(object):
         for key,value in kwargs.iteritems():
             setattr(self, key, value)
     
-    def get_high_resolution_url(self):
-        return self.images['high_resolution'].url
+    def get_standard_resolution_url(self):
+        return self.images['standard_resolution'].url
     
     @classmethod
     def object_from_dictionary(cls, entry):
@@ -24,20 +26,20 @@ class Media(object):
         for version,version_info in entry['images'].iteritems():
             new_media.images[version] = Image(**version_info)
 
-        new_media.user_has_liked = entry['user_has_liked']
+        if 'user_has_liked' in entry:
+            new_media.user_has_liked = entry['user_has_liked']
         new_media.like_count = entry['like_count']
         
         new_media.comments = []
         for comment in entry['comments']:
             new_media.comments.append(Comment.object_from_dictionary(comment))
 
-        new_media.created_time = entry['created_time']
+        new_media.created_time = timestamp_to_datetime(entry['created_time'])
 
         if entry['location']:
             new_media.location = Location.object_from_dictionary(entry['location'])
 
         new_media.link = entry['link']
-        new_media.created_time = entry['created_time']
 
         return new_media
 
@@ -63,7 +65,7 @@ class Comment(object):
     def object_from_dictionary(cls, entry):
         user = User.object_from_dictionary(entry['from'])
         message = entry['message']
-        created_at = entry['created_time']
+        created_at = timestamp_to_datetime(entry['created_time'])
         id = entry['id']
         return Comment(id, user, message, created_at)
 
