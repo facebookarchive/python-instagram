@@ -11,7 +11,7 @@ SUPPORTED_FORMATS = ['json']
 class InstagramAPI(oauth2.OAuth2API):
         
     host = "api-privatebeta.instagr.am"
-    base_path = "/v2"
+    base_path = "/v1"
     access_token_field = "access_token"
     authorize_url = "http://api-privatebeta.instagr.am/oauth/authorize"
     access_token_url = "http://api-privatebeta.instagr.am/oauth/access_token"
@@ -33,7 +33,7 @@ class InstagramAPI(oauth2.OAuth2API):
 
     media_search = bind_method(
                 path = "/media/search",
-                accepts_parameters = SEARCH_ACCEPT_PARAMETERS + ['ll'],
+                accepts_parameters = SEARCH_ACCEPT_PARAMETERS + ['ll', 'min_timestamp', 'max_timestamp'],
                 root_class = Media)
     
     user_media_feed = bind_method(

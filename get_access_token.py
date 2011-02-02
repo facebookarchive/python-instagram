@@ -1,16 +1,18 @@
 from instagram.client import InstagramAPI
+import sys
 
-try:
-    from test_settings import *
+if len(sys.argv) > 1 and sys.argv[1] == 'local':
+    try:
+        from test_settings import *
 
-    InstagramAPI.host = test_host
-    InstagramAPI.base_path = test_base_path
-    InstagramAPI.access_token_field = "access_token"
-    InstagramAPI.authorize_url = test_authorize_url
-    InstagramAPI.access_token_url = test_access_token_url
-    InstagramAPI.protocol = test_protocol
-except Exception:
-    pass
+        InstagramAPI.host = test_host
+        InstagramAPI.base_path = test_base_path
+        InstagramAPI.access_token_field = "access_token"
+        InstagramAPI.authorize_url = test_authorize_url
+        InstagramAPI.access_token_url = test_access_token_url
+        InstagramAPI.protocol = test_protocol
+    except Exception:
+        pass
 
 client_id = raw_input("Client ID: ").strip()
 client_secret = raw_input("Client Secret: ").strip()
