@@ -77,7 +77,7 @@ class InstagramAPI(oauth2.OAuth2API):
 
     location_search = bind_method(
                 path = "/locations/search",
-                accepts_parameters = ['ll', 'count'],
+                accepts_parameters = SEARCH_ACCEPT_PARAMETERS + ['foursquare_id'],
                 root_class = Location)
 
     location = bind_method(
