@@ -75,6 +75,8 @@ def bind_method(**config):
                 del self.parameters[name]
 
                 self.path = self.path.replace(variable, value)
+            self.path = self.path + '.%s' % self.api.format
+
 
         def _do_api_request(self, url):
             response, content = OAuth2Request(self.api).make_request(url)

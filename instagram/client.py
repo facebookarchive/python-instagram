@@ -6,6 +6,8 @@ from models import Image, Media, User, Location, Tag
 MEDIA_ACCEPT_PARAMETERS = ["count", "max_id"]
 SEARCH_ACCEPT_PARAMETERS = ["q", "count"]
 
+SUPPORTED_FORMATS = ['json']
+
 class InstagramAPI(oauth2.OAuth2API):
         
     host = "api-privatebeta.instagr.am"
@@ -14,6 +16,15 @@ class InstagramAPI(oauth2.OAuth2API):
     authorize_url = "http://api-privatebeta.instagr.am/oauth/authorize"
     access_token_url = "http://api-privatebeta.instagr.am/oauth/access_token"
     protocol = "http"
+
+    def __init__(self, *args, **kwargs):
+        format = kwargs.get('format', 'json')
+        if format in SUPPORTED_FORMATS:
+            self.format = format
+        else:
+            self.format = SUPPORTED_FORMATS[0]
+        super(InstagramAPI, self).__init__(*args, **kwargs)
+
 
     media_popular = bind_method(
                 path = "/media/popular",

@@ -153,7 +153,8 @@ class OAuth2Request(object):
         return body, headers
 
     def _prepare_request(self, method, path, params):
-        url, method, body, headers = None
+        url, method, body = None
+        headers = {}
 
         if not params.get('files'):
             if method == "POST":
@@ -165,8 +166,11 @@ class OAuth2Request(object):
         else:
             body, headers = encode_multipart(params, params['files'])
             url = self._full_url(path)
+
         return url, method, body, headers
 
-    def make_request(self, url, method="GET", body=None, headers=None):
+    def make_request(self, url, method="GET", body=None, headers={}):
+        if not 'User-Agent' in headers:
+            headers.update({"User-Agent":"Python OAuth2 Client"})
         http_obj = Http()
         return http_obj.request(url, method, body=body, headers=headers)
