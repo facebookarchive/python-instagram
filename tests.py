@@ -1,16 +1,28 @@
+import sys
 import time
 import getpass
 import unittest
 from instagram import *
 
-client_id = "124a2ff750454d2ba4f70ddc0fc691d2"
-client_secret = "22d0c7184ece41bebd0de13788a31a31"
-access_token = "124a2ff.fb8bfc19ff7a47008d55e0edc74ad7aa"
-redirect_uri = "http://mikeyktest.com"
+try:
+    from test_settings import *
+except Exception:
+    print "Must have a test_settings.py file with settings defined"
+    sys.exit(1)
+
+
+class TestInstagramAPI(InstagramAPI):
+    host = test_host
+    base_path = test_base_path
+    access_token_field = "access_token"
+    authorize_url = test_authorize_url
+    access_token_url = test_access_token_url
+    protocol = test_protocol
+
 
 class InstagramAuthTests(unittest.TestCase):
     def setUp(self):
-        self.unauthenticated_api = InstagramAPI(client_id=client_id, redirect_uri=redirect_uri, client_secret=client_secret)
+        self.unauthenticated_api = TestInstagramAPI(client_id=client_id, redirect_uri=redirect_uri, client_secret=client_secret)
 
     def test_authorize_login_url(self):
         redirect_uri = self.unauthenticated_api.get_authorize_login_url()
@@ -31,15 +43,14 @@ class InstagramAuthTests(unittest.TestCase):
             return
         password =  getpass.getpass("Enter password for XAuth (blank to skip): ").strip()
         access_token = self.unauthenticated_api.exchange_xauth_login_for_access_token(username, password)
-        print 'authorized with access token ', access_token
         assert access_token
 
 
 class InstagramAPITests(unittest.TestCase):
 
     def setUp(self):
-        self.client_only_api = InstagramAPI(client_id=client_id)
-        self.api = InstagramAPI(access_token=access_token)
+        self.client_only_api = TestInstagramAPI(client_id=client_id)
+        self.api = TestInstagramAPI(access_token=access_token)
 
     def test_popular_media(self):
         self.api.popular_media(count=10)
