@@ -52,8 +52,8 @@ class InstagramAPITests(unittest.TestCase):
         self.client_only_api = TestInstagramAPI(client_id=client_id)
         self.api = TestInstagramAPI(access_token=access_token)
 
-    def test_popular_media(self):
-        self.api.popular_media(count=10)
+    def test_media_popular(self):
+        self.api.media_popular(count=10)
 
     def test_media_search(self):
         self.client_only_api.media_search(ll='37.7,-122.22')

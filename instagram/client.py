@@ -15,7 +15,7 @@ class InstagramAPI(oauth2.OAuth2API):
     access_token_url = "http://api-privatebeta.instagr.am/oauth/access_token"
     protocol = "http"
 
-    popular_media = bind_method(
+    media_popular = bind_method(
                 path = "/media/popular",
                 accepts_parameters = MEDIA_ACCEPT_PARAMETERS,
                 root_class = Media)
