@@ -8,8 +8,8 @@ pip install instagram
 
 Requires
 -----
-httplib2
-simplejson
+  * httplib2
+  * simplejson
 
 Follow @instagramapi on Twitter
 ----------------------------
