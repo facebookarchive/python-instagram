@@ -65,10 +65,10 @@ class Comment(object):
     @classmethod
     def object_from_dictionary(cls, entry):
         user = User.object_from_dictionary(entry['from'])
-        message = entry['message']
+        text = entry['text']
         created_at = timestamp_to_datetime(entry['created_time'])
         id = entry['id']
-        return Comment(id, user, message, created_at)
+        return Comment(id, user, text, created_at)
 
     def __unicode__(self):
         print "%s said \"%s\"" % (self.user.username, self.message)
