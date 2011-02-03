@@ -56,11 +56,14 @@ class InstagramAPITests(unittest.TestCase):
         self.api.media_popular(count=10)
 
     def test_media_search(self):
-        self.client_only_api.media_search(latlng='37.7,-122.22')
-        self.api.media_search(latlng='37.7,-122.22')
+        self.client_only_api.media_search(lat=37.7,lng=-122.22)
+        self.api.media_search(lat=37.7,lng=-122.22)
 
     def test_media_search_without_ll(self):
         self.assertRaises(InstagramAPIError, self.api.media_search)
+
+    def test_media_likers(self):
+        self.client_only_api.media_likers(media_id=4)
 
     def test_user_feed(self):
         self.api.user_media_feed(count=50)
@@ -95,7 +98,7 @@ class InstagramAPITests(unittest.TestCase):
         self.api.location_recent_media(location_id=1)
 
     def test_location_search(self):
-        self.api.location_search(latlng='37.7,-122.22', distance=2500)
+        self.api.location_search(lat=37.7,lng=-122.22, distance=2500)
 
     def test_location(self):
         self.api.location(1)

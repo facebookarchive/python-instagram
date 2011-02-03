@@ -33,9 +33,20 @@ class InstagramAPI(oauth2.OAuth2API):
 
     media_search = bind_method(
                 path = "/media/search",
-                accepts_parameters = SEARCH_ACCEPT_PARAMETERS + ['latlng', 'min_timestamp', 'max_timestamp'],
+                accepts_parameters = SEARCH_ACCEPT_PARAMETERS + ['lat', 'lng', 'min_timestamp', 'max_timestamp'],
                 root_class = Media)
     
+    media_likers = bind_method(
+                path = "/media/{media_id}/likers",
+                accepts_parameters = ['media_id'],
+                root_class = User)
+
+    media = bind_method(
+                path = "/media/{media_id}",
+                accepts_parameters = ['media_id'],
+                root_type = "entry", 
+                root_class = Media)
+
     user_media_feed = bind_method(
                 path = "/users/self/feed",
                 accepts_parameters = MEDIA_ACCEPT_PARAMETERS,
@@ -77,7 +88,7 @@ class InstagramAPI(oauth2.OAuth2API):
 
     location_search = bind_method(
                 path = "/locations/search",
-                accepts_parameters = SEARCH_ACCEPT_PARAMETERS + ['latlng', 'foursquare_id'],
+                accepts_parameters = SEARCH_ACCEPT_PARAMETERS + ['lat', 'lng', 'foursquare_id'],
                 root_class = Location)
 
     location = bind_method(

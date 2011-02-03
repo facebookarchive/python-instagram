@@ -26,6 +26,10 @@ class OAuth2API(object):
         self.client_secret = client_secret
         self.access_token = access_token
         self.redirect_uri = redirect_uri
+
+    def get_authorize_url(self):
+        req = OAuth2AuthExchangeRequest(self)
+        return req.get_authorize_url()
         
     def get_authorize_login_url(self):
         req = OAuth2AuthExchangeRequest(self)
@@ -67,6 +71,8 @@ class OAuth2AuthExchangeRequest(object):
                                  x_auth_mode="client_auth")
         return urllib.urlencode(client_params)
 
+    def get_authorize_url(self):
+        return self._url_for_authorize()
 
     def get_authorize_login_url(self):
         http_object = Http()

@@ -28,10 +28,11 @@ class Media(object):
 
         if 'user_has_liked' in entry:
             new_media.user_has_liked = entry['user_has_liked']
-        new_media.like_count = entry['like_count']
+        new_media.like_count = entry['likes']['count']
         
+        new_media.comment_count = entry['comments']['count']
         new_media.comments = []
-        for comment in entry['comments']:
+        for comment in entry['comments']['data']:
             new_media.comments.append(Comment.object_from_dictionary(comment))
 
         new_media.created_time = timestamp_to_datetime(entry['created_time'])
