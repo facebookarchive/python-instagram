@@ -103,10 +103,10 @@ class OAuth2Request(object):
         return self._full_url_with_params(path, parameters)
 
     def get_request(self, path, **kwargs):
-        return self.make_request(self._prepare_request("GET", path, kwargs))
+        return self.make_request(self.prepare_request("GET", path, kwargs))
     
     def post_request(self, path, **kwargs):
-        return self.make_request(self._prepare_request("POST", path, kwargs))
+        return self.make_request(self.prepare_request("POST", path, kwargs))
         
     def _full_url(self, path):
         return "%s://%s%s%s%s" % (self.api.protocol, self.api.host, self.api.base_path, path, self._auth_query())
@@ -158,8 +158,8 @@ class OAuth2Request(object):
         
         return body, headers
 
-    def _prepare_request(self, method, path, params):
-        url, method, body = None
+    def prepare_request(self, method, path, params):
+        url = body = None
         headers = {}
 
         if not params.get('files'):

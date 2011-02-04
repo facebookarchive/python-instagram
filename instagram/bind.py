@@ -30,10 +30,11 @@ def bind_method(**config):
     class InstagramAPIMethod(object):
 
         path = config['path']
+        method = config.get('method', 'GET')
         accepts_parameters = config.get("accepts_parameters", [])
         paginates = config.get('paginates', False)
-        root_class = config['root_class']
-        root_type = config.get("root_type", "list")
+        root_class = config.get('root_class', None)
+        response_type = config.get("response_type", "list")
 
         def __init__(self, api, *args, **kwargs):
             self.api = api
@@ -77,39 +78,38 @@ def bind_method(**config):
                 self.path = self.path.replace(variable, value)
             self.path = self.path + '.%s' % self.api.format
 
-
-        def _do_api_request(self, url):
-            response, content = OAuth2Request(self.api).make_request(url)
+        def _do_api_request(self, url, method="GET", body=None, headers={}):
+            response, content = OAuth2Request(self.api).make_request(url, method=method, body=body, headers=headers)
             if response['status'] == '503':
                 raise InstagramAPIError(response['status'], "Rate limited", "Your client is making too many request per second")
             content_obj = simplejson.loads(content)
             response_objects = []
             status_code = content_obj['meta']['code']
             if status_code == 200:
-                if self.root_type == 'list':
+                if self.response_type == 'list':
                     for entry in content_obj['data']:
                         obj = self.root_class.object_from_dictionary(entry)
                         response_objects.append(obj)
-                else:
+                elif self.response_type == 'entry':
                     response_objects = self.root_class.object_from_dictionary(content_obj['data'])
                 return response_objects, content_obj.get('pagination', {}).get('next_url') 
             else:
                 raise InstagramAPIError(status_code, content_obj['meta']['error_type'], content_obj['meta']['error_message'])
 
-        def _paginator_with_url(self, url):
+        def _paginator_with_url(self, url, method="GET", body=None, headers={}):
             pages_read = 0
             while url and pages_read < self.max_pages:
-                 response_objects, url = self._do_api_request(url)
+                 response_objects, url = self._do_api_request(url, method, body, headers)
                  pages_read += 1
                  yield response_objects, url 
             return
 
         def execute(self):
-            full_url = OAuth2Request(self.api).url_for_get(self.path, self.parameters)
+            url, method, body, headers = OAuth2Request(self.api).prepare_request(self.method, self.path, self.parameters)
             if self.as_generator:
-                return self._paginator_with_url(full_url)
+                return self._paginator_with_url(url, method, body, headers)
             else:
-                content, next = self._do_api_request(full_url)
+                content, next = self._do_api_request(url, method, body, headers)
             if self.paginates:
                 return content, next
             else:

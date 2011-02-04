@@ -1,24 +1,58 @@
+import types
 import sys
+import simplejson
 import time
 import getpass
 import unittest
-from instagram import *
+import urlparse
+from instagram import client, oauth2, InstagramAPIError
 
-try:
-    from test_settings import *
-except Exception:
-    print "Must have a test_settings.py file with settings defined"
-    sys.exit(1)
+TEST_AUTH = False
+client_id = "DEBUG"
+client_secret = "DEBUG"
+access_token = "DEBUG"
+redirect_uri = "http://example.com"
 
+class MockHttp(object):
+    def request(self, url, method="GET", body=None, headers={}):
+        fail_state = {
+            'status':'400'
+        }, "{}"
 
-class TestInstagramAPI(InstagramAPI):
-    host = test_host
-    base_path = test_base_path
-    access_token_field = "access_token"
-    authorize_url = test_authorize_url
-    access_token_url = test_access_token_url
-    protocol = test_protocol
+        parsed = urlparse.urlparse(url)
+        options = urlparse.parse_qs(parsed.query)
 
+        fn_name = str(active_call)
+        if fn_name == 'get_authorize_login_url':
+            return {
+                'status': '200',
+                'content-location':'http://example.com/redirect/login'
+            }, None
+        
+        if not 'access_token' in options and not 'client_id' in options:
+            fn_name += '_unauthorized'
+        if 'self' in url and not 'access_token' in options:
+            fn_name += '_no_auth_user'
+
+        fl = open('fixtures/%s.json' % fn_name)
+        content = fl.read()
+        json_content = simplejson.loads(content)
+        status = json_content['meta']['code']
+        return {
+            'status': status
+        }, content
+
+oauth2.Http = MockHttp
+
+active_call = None
+class TestInstagramAPI(client.InstagramAPI):
+
+    def __getattribute__(self, attr):
+        global active_call
+        actual_val = super(TestInstagramAPI, self).__getattribute__(attr)
+        if isinstance(actual_val, types.MethodType):
+            active_call = attr
+        return actual_val
 
 class InstagramAuthTests(unittest.TestCase):
     def setUp(self):
@@ -45,10 +79,10 @@ class InstagramAuthTests(unittest.TestCase):
         access_token = self.unauthenticated_api.exchange_xauth_login_for_access_token(username, password)
         assert access_token
 
-
 class InstagramAPITests(unittest.TestCase):
 
     def setUp(self):
+        super(InstagramAPITests, self).setUp()
         self.client_only_api = TestInstagramAPI(client_id=client_id)
         self.api = TestInstagramAPI(access_token=access_token)
 
@@ -59,11 +93,16 @@ class InstagramAPITests(unittest.TestCase):
         self.client_only_api.media_search(lat=37.7,lng=-122.22)
         self.api.media_search(lat=37.7,lng=-122.22)
 
-    def test_media_search_without_ll(self):
-        self.assertRaises(InstagramAPIError, self.api.media_search)
+    def test_media_likes(self):
+        self.client_only_api.media_likes(media_id=4)
 
-    def test_media_likers(self):
-        self.client_only_api.media_likers(media_id=4)
+    def test_like_media(self):
+        self.api.like_media(media_id=4)
+        self.api.unlike_media(media_id=4)
+
+    def test_comment_media(self):
+        comment = self.api.create_media_comment(media_id=4, text='test')
+        self.api.delete_comment(media_id=4, comment_id=comment.id)
 
     def test_user_feed(self):
         self.api.user_media_feed(count=50)
@@ -113,9 +152,12 @@ class InstagramAPITests(unittest.TestCase):
     def test_tag_search(self):
         self.api.tag_search("coff")
 
-    def tag(self):
+    def test_tag(self):
         self.api.tag("coffee")
 
 if __name__ == '__main__':
+    if not TEST_AUTH:
+        del InstagramAuthTests
+
     unittest.main()
 

@@ -1,7 +1,7 @@
 import oauth2
 from bind import bind_method
 import simplejson
-from models import Image, Media, User, Location, Tag
+from models import Image, Media, User, Location, Tag, Comment
 
 MEDIA_ACCEPT_PARAMETERS = ["count", "max_id"]
 SEARCH_ACCEPT_PARAMETERS = ["q", "count"]
@@ -36,15 +36,47 @@ class InstagramAPI(oauth2.OAuth2API):
                 accepts_parameters = SEARCH_ACCEPT_PARAMETERS + ['lat', 'lng', 'min_timestamp', 'max_timestamp'],
                 root_class = Media)
     
-    media_likers = bind_method(
-                path = "/media/{media_id}/likers",
+    media_likes = bind_method(
+                path = "/media/{media_id}/likes",
                 accepts_parameters = ['media_id'],
                 root_class = User)
+
+    like_media = bind_method(
+                path = "/media/{media_id}/likes",
+                method = "POST",
+                accepts_parameters = ['media_id'],
+                response_type = "empty")
+
+    unlike_media = bind_method(
+                path = "/media/{media_id}/likes",
+                method = "DELETE",
+                accepts_parameters = ['media_id'],
+                response_type = "empty")
+
+    create_media_comment = bind_method(
+                path = "/media/{media_id}/comments",
+                method = "POST",
+                accepts_parameters = ['media_id', 'text'],
+                response_type = "entry",
+                root_class = Comment)
+
+    delete_comment = bind_method(
+                path = "/media/{media_id}/comments/{comment_id}",
+                method = "DELETE",
+                accepts_parameters = ['media_id', 'comment_id'],
+                response_type = "empty")
+
+    media_comments = bind_method(
+                path = "/media/{media_id}/comments",
+                method = "GET",
+                accepts_parameters = ['media_id'],
+                response_type = "list",
+                root_class = Comment)
 
     media = bind_method(
                 path = "/media/{media_id}",
                 accepts_parameters = ['media_id'],
-                root_type = "entry", 
+                response_type = "entry", 
                 root_class = Media)
 
     user_media_feed = bind_method(
@@ -78,7 +110,7 @@ class InstagramAPI(oauth2.OAuth2API):
                 path = "/users/{user_id}",
                 accepts_parameters = ["user_id"],
                 root_class = User,
-                root_type = "entry")
+                response_type = "entry")
     
     location_recent_media = bind_method(
                 path = "/locations/{location_id}/media/recent",
@@ -95,7 +127,7 @@ class InstagramAPI(oauth2.OAuth2API):
                 path = "/locations/{location_id}",
                 accepts_parameters = ["location_id"],
                 root_class = Location,
-                root_type = "entry")
+                response_type = "entry")
 
 
     tag_recent_media = bind_method(
@@ -114,4 +146,4 @@ class InstagramAPI(oauth2.OAuth2API):
                 path = "/tags/{tag_name}",
                 accepts_parameters = ["tag_name"],
                 root_class = Tag,
-                root_type = "entry")
+                response_type = "entry")

@@ -1,0 +1,11 @@
+{
+    "meta": {
+        "code": 200
+    }, 
+    "data": {
+        "latitude": 37.769298430744279, 
+        "id": "315", 
+        "longitude": -122.4290335178376, 
+        "name": "Duboce & Church MUNI Stop"
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "meta": {
+        "code": 200
+    }, 
+    "data": [
+        {
+            "username": "iphone", 
+            "first_name": "Insta", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/anonymousUser.jpg", 
+            "id": "148117", 
+            "last_name": "Gram"
+        }
+    ]
+}

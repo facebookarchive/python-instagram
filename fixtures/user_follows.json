@@ -1,0 +1,261 @@
+{
+    "paging": {
+        "next_url": "http://localhost:8000/publicapi/v1/users/4/follows/users?q=iphone&lat=37.771&cursor=1201686&access_token=DEBUG&lng=-122.221", 
+        "next_cursor": 1201686
+    }, 
+    "meta": {
+        "code": 200
+    }, 
+    "data": [
+        {
+            "username": "kevin", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_3_75sq_1295493319_debug.jpg", 
+            "id": "3"
+        }, 
+        {
+            "username": "moop55_ok", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_332654_75sq_1294963309_debug.jpg", 
+            "id": "332654"
+        }, 
+        {
+            "username": "ooop", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_580183_75sq_1295562975_debug.jpg", 
+            "id": "580183"
+        }, 
+        {
+            "username": "tastyboo", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_580178_75sq_1295490998_debug.jpg", 
+            "id": "580178"
+        }, 
+        {
+            "username": "moopafa", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/anonymousUser.jpg", 
+            "id": "580174"
+        }, 
+        {
+            "username": "jalter", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/anonymousUser.png", 
+            "id": "51"
+        }, 
+        {
+            "username": "doug", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_17_75sq_1287382013.jpg", 
+            "id": "17"
+        }, 
+        {
+            "username": "danman", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_139329_75sq_1287670462.jpg", 
+            "id": "139329"
+        }, 
+        {
+            "username": "amine", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_136_75sq_1286357298.jpg", 
+            "id": "136"
+        }, 
+        {
+            "username": "moopevil3", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/anonymousUser.jpg", 
+            "id": "580164"
+        }, 
+        {
+            "username": "kevnull", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_12169_75sq_1286433153.jpg", 
+            "id": "12169"
+        }, 
+        {
+            "username": "wymp", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/anonymousUser.jpg", 
+            "id": "402370"
+        }, 
+        {
+            "username": "rad", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_330307_75sq_1288842417.jpg", 
+            "id": "330307"
+        }, 
+        {
+            "username": "mpreysman", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_2431_75sq_1286378624.jpg", 
+            "id": "2431"
+        }, 
+        {
+            "username": "joulee", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_354221_75sq_1288477666.jpg", 
+            "id": "354221"
+        }, 
+        {
+            "username": "drtyhbo", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/anonymousUser.jpg", 
+            "id": "451846"
+        }, 
+        {
+            "username": "pm", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/anonymousUser.jpg", 
+            "id": "21017"
+        }, 
+        {
+            "username": "mike_matas", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/anonymousUser.jpg", 
+            "id": "283400"
+        }, 
+        {
+            "username": "joehewitt", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/anonymousUser.jpg", 
+            "id": "340483"
+        }, 
+        {
+            "username": "itod", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_73142_75sq_1288712029.jpg", 
+            "id": "73142"
+        }, 
+        {
+            "username": "erickschonfeld", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_412333_75sq_1288708924.jpg", 
+            "id": "412333"
+        }, 
+        {
+            "username": "edog1203", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/anonymousUser.jpg", 
+            "id": "334077"
+        }, 
+        {
+            "username": "addumb", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_156856_75sq_1287287045.jpg", 
+            "id": "156856"
+        }, 
+        {
+            "username": "neo121", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_4124_75sq_1286682619.jpg", 
+            "id": "4124"
+        }, 
+        {
+            "username": "heathsplosion", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_4962_75sq_1287559547.jpg", 
+            "id": "4962"
+        }, 
+        {
+            "username": "baristaskills", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_400745_75sq_1288898161.jpg", 
+            "id": "400745"
+        }, 
+        {
+            "username": "mephaust", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/anonymousUser.jpg", 
+            "id": "379207"
+        }, 
+        {
+            "username": "zuck", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/anonymousUser.jpg", 
+            "id": "314216"
+        }, 
+        {
+            "username": "kikife", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_89613_75sq_1288524236.jpg", 
+            "id": "89613"
+        }, 
+        {
+            "username": "nathanfolkman", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_10331_75sq_1288543942.jpg", 
+            "id": "10331"
+        }, 
+        {
+            "username": "szetopia", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_324431_75sq_1288324508.jpg", 
+            "id": "324431"
+        }, 
+        {
+            "username": "savasavasava", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_230975_75sq_1288882103.jpg", 
+            "id": "230975"
+        }, 
+        {
+            "username": "marcoarment", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_319323_75sq_1288295580.jpg", 
+            "id": "319323"
+        }, 
+        {
+            "username": "jonathan", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_104_75sq_1286247931.jpg", 
+            "id": "104"
+        }, 
+        {
+            "username": "marcin", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_3436_75sq_1286398236.jpg", 
+            "id": "3436"
+        }, 
+        {
+            "username": "sara", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_3843_75sq_1286396157.jpg", 
+            "id": "3843"
+        }, 
+        {
+            "username": "garrytan", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_118666_75sq_1287710518.jpg", 
+            "id": "118666"
+        }, 
+        {
+            "username": "bijan", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_4415_75sq_1286388941.jpg", 
+            "id": "4415"
+        }, 
+        {
+            "username": "kevinrose", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_124163_75sq_1287092509.jpg", 
+            "id": "124163"
+        }, 
+        {
+            "username": "joshjohnson", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_98476_75sq_1288321499.jpg", 
+            "id": "98476"
+        }, 
+        {
+            "username": "andreklbacelar", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_9456_75sq_1287715249.jpg", 
+            "id": "9456"
+        }, 
+        {
+            "username": "sacca", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_221307_75sq_1287732175.jpg", 
+            "id": "221307"
+        }, 
+        {
+            "username": "suzykrieger", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_220658_75sq_1287968389.jpg", 
+            "id": "220658"
+        }, 
+        {
+            "username": "nandakbp", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_269007_75sq_1287970385.jpg", 
+            "id": "269007"
+        }, 
+        {
+            "username": "jpollock", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/anonymousUser.jpg", 
+            "id": "157011"
+        }, 
+        {
+            "username": "iphonequeen", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_6392_75sq_1286477168.jpg", 
+            "id": "6392"
+        }, 
+        {
+            "username": "igutfreund", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/anonymousUser.jpg", 
+            "id": "248626"
+        }, 
+        {
+            "username": "onwall", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/anonymousUser.jpg", 
+            "id": "248299"
+        }, 
+        {
+            "username": "missmallibu", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_235309_75sq_1287796262.jpg", 
+            "id": "235309"
+        }, 
+        {
+            "username": "jimgoldstein", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_171983_75sq_1287376290.jpg", 
+            "id": "171983"
+        }
+    ]
+}

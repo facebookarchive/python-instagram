@@ -1,0 +1,8 @@
+{
+    "meta": {
+        "error_type": "no authenticated user", 
+        "code": 400, 
+        "error_message": "'self' keyword requires an authenticated user"
+    }
+}
+

@@ -1,0 +1,31 @@
+{
+    "meta": {
+        "code": 200
+    }, 
+    "data": [
+        {
+            "latitude": 37.775382999999991, 
+            "id": "74480", 
+            "longitude": -122.223941, 
+            "name": "Fruitvale BART"
+        }, 
+        {
+            "latitude": 37.775289999999998, 
+            "id": "163042", 
+            "longitude": -122.224172, 
+            "name": "Powderface"
+        }, 
+        {
+            "latitude": 37.775180799999987, 
+            "id": "68841", 
+            "longitude": -122.2270716, 
+            "name": "El Novillo Taco Truck"
+        }, 
+        {
+            "latitude": 37.775194499999998, 
+            "id": "101132", 
+            "longitude": -122.227087, 
+            "name": "Guadalajara Mexican Cuisine and Bar"
+        }
+    ]
+}

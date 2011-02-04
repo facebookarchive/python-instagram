@@ -1,0 +1,22 @@
+{
+    "meta": {
+        "code": 200
+    }, 
+    "data": [
+        {
+            "username": "jec", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_16_75sq_1288978412.jpg", 
+            "id": "16"
+        }, 
+        {
+            "username": "mikeyk", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_4_75sq_1292324747_debug.jpg", 
+            "id": "4"
+        }, 
+        {
+            "username": "nicole", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_6_75sq_1285365377.jpg", 
+            "id": "6"
+        }
+    ]
+}

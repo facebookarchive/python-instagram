@@ -1,0 +1,261 @@
+{
+    "paging": {
+        "next_url": "http://localhost:8000/publicapi/v1/users/4/followed-by/users?access_token=DEBUG&cursor=3917168", 
+        "next_cursor": 3917168
+    }, 
+    "meta": {
+        "code": 200
+    }, 
+    "data": [
+        {
+            "username": "shayne", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_20_75sq_1295492590_debug.jpg", 
+            "id": "20"
+        }, 
+        {
+            "username": "moop55_ok", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_332654_75sq_1294963309_debug.jpg", 
+            "id": "332654"
+        }, 
+        {
+            "username": "blork2", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/anonymousUser.jpg", 
+            "id": "580180"
+        }, 
+        {
+            "username": "josh", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_33_75sq_1295491045_debug.jpg", 
+            "id": "33"
+        }, 
+        {
+            "username": "tastyboo", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_580178_75sq_1295490998_debug.jpg", 
+            "id": "580178"
+        }, 
+        {
+            "username": "laserlover", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_580179_75sq_1295491309_debug.jpg", 
+            "id": "580179"
+        }, 
+        {
+            "username": "moopafa", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/anonymousUser.jpg", 
+            "id": "580174"
+        }, 
+        {
+            "username": "moopqii", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_580173_75sq_1292308937_debug.jpg", 
+            "id": "580173"
+        }, 
+        {
+            "username": "oiioj", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/anonymousUser.jpg", 
+            "id": "580169"
+        }, 
+        {
+            "username": "bryonyjay", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_577788_75sq_1289316054.jpg", 
+            "id": "577788"
+        }, 
+        {
+            "username": "omani", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_518958_75sq_1289092738.jpg", 
+            "id": "518958"
+        }, 
+        {
+            "username": "jambablast", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_530469_75sq_1289304798.jpg", 
+            "id": "530469"
+        }, 
+        {
+            "username": "wry338", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/anonymousUser.jpg", 
+            "id": "576318"
+        }, 
+        {
+            "username": "cxd1207", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_5942_75sq_1287369728.jpg", 
+            "id": "5942"
+        }, 
+        {
+            "username": "kevi", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_36_75sq.jpg", 
+            "id": "36"
+        }, 
+        {
+            "username": "mingyeow", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_33914_75sq_1289268647.jpg", 
+            "id": "33914"
+        }, 
+        {
+            "username": "yn_", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_484721_75sq_1289153818.jpg", 
+            "id": "484721"
+        }, 
+        {
+            "username": "aj606", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_143662_75sq_1288361138.jpg", 
+            "id": "143662"
+        }, 
+        {
+            "username": "jaime_x", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_262440_75sq_1288116720.jpg", 
+            "id": "262440"
+        }, 
+        {
+            "username": "kanellos_iphone_camera", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_438566_75sq_1289321769.jpg", 
+            "id": "438566"
+        }, 
+        {
+            "username": "derekeb", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_122262_75sq_1288335893.jpg", 
+            "id": "122262"
+        }, 
+        {
+            "username": "ashleybabyy", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_549485_75sq_1289265082.jpg", 
+            "id": "549485"
+        }, 
+        {
+            "username": "johnattebury", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_6291_75sq_1286396465.jpg", 
+            "id": "6291"
+        }, 
+        {
+            "username": "mriphonephoto", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_545757_75sq_1289179220.jpg", 
+            "id": "545757"
+        }, 
+        {
+            "username": "lara84", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_544005_75sq_1289173643.jpg", 
+            "id": "544005"
+        }, 
+        {
+            "username": "ayelmo", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_454447_75sq_1289074442.jpg", 
+            "id": "454447"
+        }, 
+        {
+            "username": "sosolove", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_496503_75sq_1289135822.jpg", 
+            "id": "496503"
+        }, 
+        {
+            "username": "nobarphotographic", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_533388_75sq_1289143320.jpg", 
+            "id": "533388"
+        }, 
+        {
+            "username": "greendot", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_355967_75sq_1288793234.jpg", 
+            "id": "355967"
+        }, 
+        {
+            "username": "adam_rowlands", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_553560_75sq_1289209851.jpg", 
+            "id": "553560"
+        }, 
+        {
+            "username": "llbrdll", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_85773_75sq_1289271249.jpg", 
+            "id": "85773"
+        }, 
+        {
+            "username": "tj76", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_552689_75sq_1289248279.jpg", 
+            "id": "552689"
+        }, 
+        {
+            "username": "jeremiah1979", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_562543_75sq_1289249480.jpg", 
+            "id": "562543"
+        }, 
+        {
+            "username": "scottperry", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_407114_75sq_1288688728.jpg", 
+            "id": "407114"
+        }, 
+        {
+            "username": "dianabackelin", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_352978_75sq_1288472524.jpg", 
+            "id": "352978"
+        }, 
+        {
+            "username": "mattiasd", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_45209_75sq_1287491105.jpg", 
+            "id": "45209"
+        }, 
+        {
+            "username": "arcadia", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_464780_75sq_1289014799.jpg", 
+            "id": "464780"
+        }, 
+        {
+            "username": "francesccoves", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_32887_75sq_1286553833.jpg", 
+            "id": "32887"
+        }, 
+        {
+            "username": "carstentuss", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_465799_75sq_1289314333.jpg", 
+            "id": "465799"
+        }, 
+        {
+            "username": "spysam33", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_448501_75sq_1289254820.jpg", 
+            "id": "448501"
+        }, 
+        {
+            "username": "thomasrr", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_536436_75sq_1289152063.jpg", 
+            "id": "536436"
+        }, 
+        {
+            "username": "jorgen", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_81682_75sq_1287558227.jpg", 
+            "id": "81682"
+        }, 
+        {
+            "username": "mizuiro", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_151401_75sq_1288530719.jpg", 
+            "id": "151401"
+        }, 
+        {
+            "username": "pwinky", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_184848_75sq_1287726640.jpg", 
+            "id": "184848"
+        }, 
+        {
+            "username": "nadinyc", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_514905_75sq_1289255329.jpg", 
+            "id": "514905"
+        }, 
+        {
+            "username": "kotaro0723", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_302843_75sq_1288801261.jpg", 
+            "id": "302843"
+        }, 
+        {
+            "username": "nookung", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_556112_75sq_1289230254.jpg", 
+            "id": "556112"
+        }, 
+        {
+            "username": "sizr", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_159380_75sq_1287302606.jpg", 
+            "id": "159380"
+        }, 
+        {
+            "username": "jordiv", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/anonymousUser.jpg", 
+            "id": "556184"
+        }, 
+        {
+            "username": "fruitis", 
+            "profile_picture": "http://distillery.s3.amazonaws.com/profiles/profile_516236_75sq_1289173347.jpg", 
+            "id": "516236"
+        }
+    ]
+}
