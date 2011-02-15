@@ -1,7 +1,6 @@
 import oauth2
 from bind import bind_method
-import simplejson
-from models import Image, Media, User, Location, Tag, Comment
+from models import Media, User, Location, Tag, Comment, Relationship
 
 MEDIA_ACCEPT_PARAMETERS = ["count", "max_id"]
 SEARCH_ACCEPT_PARAMETERS = ["q", "count"]
@@ -10,19 +9,20 @@ SUPPORTED_FORMATS = ['json']
 
 class InstagramAPI(oauth2.OAuth2API):
         
-    host = "api-privatebeta.instagr.am"
+    host = "api.instagram.com"
     base_path = "/v1"
     access_token_field = "access_token"
-    authorize_url = "http://api-privatebeta.instagr.am/oauth/authorize"
-    access_token_url = "http://api-privatebeta.instagr.am/oauth/access_token"
-    protocol = "http"
+    authorize_url = "https://api.instagram.com/oauth/authorize"
+    access_token_url = "https://api.instagram.com/oauth/access_token"
+    protocol = "https"
+    api_name = "Instagram"
 
     def __init__(self, *args, **kwargs):
         format = kwargs.get('format', 'json')
         if format in SUPPORTED_FORMATS:
             self.format = format
         else:
-            self.format = SUPPORTED_FORMATS[0]
+            raise Exception("Unsupported format")
         super(InstagramAPI, self).__init__(*args, **kwargs)
 
 
@@ -129,7 +129,6 @@ class InstagramAPI(oauth2.OAuth2API):
                 root_class = Location,
                 response_type = "entry")
 
-
     tag_recent_media = bind_method(
                 path = "/tags/{tag_name}/media/recent",
                 accepts_parameters = MEDIA_ACCEPT_PARAMETERS + ['tag_name'],
@@ -147,3 +146,38 @@ class InstagramAPI(oauth2.OAuth2API):
                 accepts_parameters = ["tag_name"],
                 root_class = Tag,
                 response_type = "entry")
+
+    user_follows = bind_method(
+                path = "/users/self/follows",
+                root_class = User,
+                paginates = True)
+
+    user_followed_by = bind_method(
+                path = "/users/self/followed-by",
+                root_class = User,
+                paginates = True)
+
+    user_incoming_requests = bind_method(
+                path = "/users/self/requested-by",
+                root_class = User)
+
+    change_user_relationship = bind_method(
+                path = "/users/{user_id}/relationship",
+                root_class = Relationship,
+                accepts_parameters = ["user_id", "action"],
+                paginates = True,
+                requires_target_user = True,
+                response_type = "entry")
+
+    def _make_relationship_shortcut(action):
+        def _inner(self, *args, **kwargs):
+            return self.change_user_relationship(user_id=kwargs.get("user_id"),
+                                                 action=action)
+        return _inner
+
+    follow_user = _make_relationship_shortcut('follow')
+    unfollow_user = _make_relationship_shortcut('unfollow')
+    block_user = _make_relationship_shortcut('block')
+    unblock_user = _make_relationship_shortcut('unblock')
+    approve_user_request = _make_relationship_shortcut('approve')
+    ignore_user_request = _make_relationship_shortcut('ignore')

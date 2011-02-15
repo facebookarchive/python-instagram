@@ -1,7 +1,7 @@
 {
-    "paging": {
+    "pagination": {
         "next_url": "http://localhost:8000/publicapi/v1/users/4/follows/users?q=iphone&lat=37.771&cursor=1201686&access_token=DEBUG&lng=-122.221", 
-        "next_cursor": 1201686
+        "next_cursor": "1201686"
     }, 
     "meta": {
         "code": 200

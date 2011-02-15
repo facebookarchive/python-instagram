@@ -20,6 +20,8 @@ class OAuth2API(object):
     # some providers use "oauth_token"
     access_token_field = "access_token"
     protocol = "https"
+    # override with 'Instagram', etc
+    api_name = "Generic API"
     
     def __init__(self, client_id=None, client_secret=None, access_token=None, redirect_uri=None):
         self.client_id = client_id
@@ -177,6 +179,6 @@ class OAuth2Request(object):
 
     def make_request(self, url, method="GET", body=None, headers={}):
         if not 'User-Agent' in headers:
-            headers.update({"User-Agent":"Python OAuth2 Client"})
+            headers.update({"User-Agent":"%s Python Client" % self.api.api_name})
         http_obj = Http()
         return http_obj.request(url, method, body=body, headers=headers)

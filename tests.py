@@ -1,3 +1,5 @@
+#! /usr/bin/python
+
 import types
 import sys
 import simplejson
@@ -154,6 +156,28 @@ class InstagramAPITests(unittest.TestCase):
 
     def test_tag(self):
         self.api.tag("coffee")
+
+    def test_user_follows(self):
+        self.api.user_follows()
+
+    def test_user_followed_by(self):
+        self.api.user_followed_by()
+
+    def test_user_followed_by(self):
+        self.api.user_followed_by()
+
+    def test_user_requested_by(self):
+        self.api.user_followed_by()
+
+    def test_user_incoming_requests(self):
+	self.api.user_incoming_requests()
+
+    def test_change_relationship(self):
+	self.api.change_user_relationship(user_id=10, action="follow")
+	# test shortcuts as well
+	self.api.follow_user(user_id='10')
+	self.api.unfollow_user(user_id='10')
+
 
 if __name__ == '__main__':
     if not TEST_AUTH:

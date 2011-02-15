@@ -32,6 +32,7 @@ def bind_method(**config):
         path = config['path']
         method = config.get('method', 'GET')
         accepts_parameters = config.get("accepts_parameters", [])
+        requires_target_user = config.get('requires_target_user', False)
         paginates = config.get('paginates', False)
         root_class = config.get('root_class', None)
         response_type = config.get("response_type", "list")
@@ -61,9 +62,9 @@ def bind_method(**config):
                 if key in self.parameters:
                     raise InstagramClientError("Parameter %s already supplied" % key)
                 self.parameters[key] = encode_string(value)
-            if 'user_id' in self.accepts_parameters and not 'user_id' in self.parameters:
+            if 'user_id' in self.accepts_parameters and not 'user_id' in self.parameters \
+               and not self.requires_target_user:
                 self.parameters['user_id'] = 'self'
-
 
         def _build_path(self):
             for variable in re_path_template.findall(self.path):
