@@ -1,5 +1,8 @@
-from bottle import route, run, request
-from instagram import client
+import bottle
+from bottle import route, post, run, request
+from instagram import client, subscriptions
+
+bottle.debug(True)
 
 CONFIG = {
     'client_id': '',
@@ -8,6 +11,12 @@ CONFIG = {
 }
 
 unauthenticated_api = client.InstagramAPI(**CONFIG)
+
+def process_tag_update(update):
+    print update
+
+reactor = subscriptions.SubscriptionsReactor()
+reactor.register_callback(subscriptions.SubscriptionType.TAG, process_tag_update)
 
 @route('/')
 def home():
@@ -36,4 +45,20 @@ def on_callback():
     except Exception, e:
         print e
 
-run(host='localhost', port=8515)
+@route('/realtime_callback')
+@post('/realtime_callback')
+def on_realtime_callback():
+    mode = request.GET.get("hub.mode")
+    challenge = request.GET.get("hub.challenge")
+    verify_token = request.GET.get("hub.verify_token")
+    if challenge: 
+        return challenge
+    else:
+        x_hub_signature = request.header.get('X-Hub-Signature')
+        raw_response = request.body.read()
+        try:
+            reactor.process(CONFIG['client_secret'], raw_response, x_hub_signature)
+        except subscriptions.SubscriptionVerifyError:
+            print "Signature mismatch"
+
+run(host='localhost', port=8515, reloader=True)

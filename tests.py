@@ -48,7 +48,6 @@ oauth2.Http = MockHttp
 
 active_call = None
 class TestInstagramAPI(client.InstagramAPI):
-
     def __getattribute__(self, attr):
         global active_call
         actual_val = super(TestInstagramAPI, self).__getattribute__(attr)
@@ -178,10 +177,8 @@ class InstagramAPITests(unittest.TestCase):
 	self.api.follow_user(user_id='10')
 	self.api.unfollow_user(user_id='10')
 
-
 if __name__ == '__main__':
     if not TEST_AUTH:
         del InstagramAuthTests
 
     unittest.main()
-

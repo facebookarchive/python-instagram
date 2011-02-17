@@ -181,3 +181,25 @@ class InstagramAPI(oauth2.OAuth2API):
     unblock_user = _make_relationship_shortcut('unblock')
     approve_user_request = _make_relationship_shortcut('approve')
     ignore_user_request = _make_relationship_shortcut('ignore')
+
+
+
+    def _make_subscription_action(method):
+        return bind_method(
+            path = "/subscriptions",
+            method = method,
+            accepts_parameters = ["object", 
+                                  "aspect", 
+                                  "object_id", # Optional if subscribing to all users
+                                  "callback_url", 
+                                  "lat", # Geography 
+                                  "lng", # Geography 
+                                  "radius", # Geography 
+                                  "verify_token"],
+            include_secret = True,
+            objectify_response = False
+        )
+
+    create_subscription = _make_subscription_action('POST')
+    list_subscriptions = _make_subscription_action('GET')
+    delete_subscriptions = _make_subscription_action('DELETE')

@@ -36,6 +36,8 @@ def bind_method(**config):
         paginates = config.get('paginates', False)
         root_class = config.get('root_class', None)
         response_type = config.get("response_type", "list")
+        include_secret = config.get("include_secret", False)
+        objectify_response = config.get("objectify_response", True)
 
         def __init__(self, api, *args, **kwargs):
             self.api = api
@@ -87,6 +89,9 @@ def bind_method(**config):
             response_objects = []
             status_code = content_obj['meta']['code']
             if status_code == 200:
+                if not self.objectify_response:
+                    return content_obj, None
+
                 if self.response_type == 'list':
                     for entry in content_obj['data']:
                         obj = self.root_class.object_from_dictionary(entry)
@@ -106,7 +111,10 @@ def bind_method(**config):
             return
 
         def execute(self):
-            url, method, body, headers = OAuth2Request(self.api).prepare_request(self.method, self.path, self.parameters)
+            url, method, body, headers = OAuth2Request(self.api).prepare_request(self.method, 
+                                                                                 self.path, 
+                                                                                 self.parameters, 
+                                                                                 include_secret = self.include_secret)
             if self.as_generator:
                 return self._paginator_with_url(url, method, body, headers)
             else:

@@ -117,21 +117,28 @@ class OAuth2Request(object):
     def post_request(self, path, **kwargs):
         return self.make_request(self.prepare_request("POST", path, kwargs))
         
-    def _full_url(self, path):
-        return "%s://%s%s%s%s" % (self.api.protocol, self.api.host, self.api.base_path, path, self._auth_query())
+    def _full_url(self, path, include_secret=False):
+        return "%s://%s%s%s%s" % (self.api.protocol, 
+                                  self.api.host, 
+                                  self.api.base_path, 
+                                  path, 
+                                  self._auth_query(include_secret))
 
-    def _full_url_with_params(self, path, params):
-        return (self._full_url(path) + self._full_query_with_params(params))
+    def _full_url_with_params(self, path, params, include_secret=False):
+        return (self._full_url(path, include_secret) + self._full_query_with_params(params))
 
     def _full_query_with_params(self, params):
         params = ("&" + urllib.urlencode(params)) if params else ""
         return params
 
-    def _auth_query(self):
+    def _auth_query(self, include_secret=False):
         if self.api.access_token:
             return ("?%s=%s" % (self.api.access_token_field, self.api.access_token))
         elif self.api.client_id:
-            return ("?client_id=%s" % (self.api.client_id))
+            base = ("?client_id=%s" % (self.api.client_id))
+            if include_secret:
+                base += "&client_secret=%s" % (self.api.client_secret)
+            return base
 
     def _post_body(self, params):
         return urllib.urlencode(params)
@@ -167,7 +174,11 @@ class OAuth2Request(object):
         
         return body, headers
 
-    def prepare_request(self, method, path, params):
+    def prepare_and_make_request(self, method, path, params, include_secret=False):
+        url, method, body, headers = self.prepare_request(method, path, params, include_secret)
+        return self.make_request(url, method, body, headers)
+
+    def prepare_request(self, method, path, params, include_secret=False):
         url = body = None
         headers = {}
 
@@ -175,9 +186,9 @@ class OAuth2Request(object):
             if method == "POST":
                 body = self._post_body(params)
                 headers = {'Content-type': 'application/x-www-form-urlencoded'}                
-                url = self._full_url(path)
+                url = self._full_url(path, include_secret)
             else:
-                url = self._full_url_with_params(path, params)
+                url = self._full_url_with_params(path, params, include_secret)
         else:
             body, headers = encode_multipart(params, params['files'])
             url = self._full_url(path)
