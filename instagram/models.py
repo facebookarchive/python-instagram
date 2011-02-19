@@ -26,10 +26,10 @@ class Media(ApiModel):
         return self.images['standard_resolution'].url
     
     @classmethod
-    def ApiModel_from_dictionary(cls, entry):
+    def object_from_dictionary(cls, entry):
         new_media = Media(id=entry['id'])
         
-        new_media.user = User.ApiModel_from_dictionary(entry['user'])
+        new_media.user = User.object_from_dictionary(entry['user'])
         new_media.images = {}
         for version,version_info in entry['images'].iteritems():
             new_media.images[version] = Image(**version_info)
@@ -41,12 +41,12 @@ class Media(ApiModel):
         new_media.comment_count = entry['comments']['count']
         new_media.comments = []
         for comment in entry['comments']['data']:
-            new_media.comments.append(Comment.ApiModel_from_dictionary(comment))
+            new_media.comments.append(Comment.object_from_dictionary(comment))
 
         new_media.created_time = timestamp_to_datetime(entry['created_time'])
 
         if entry['location']:
-            new_media.location = Location.ApiModel_from_dictionary(entry['location'])
+            new_media.location = Location.object_from_dictionary(entry['location'])
 
         new_media.link = entry['link']
 
@@ -67,8 +67,8 @@ class Comment(ApiModel):
             setattr(self, key, value)
 
     @classmethod
-    def ApiModel_from_dictionary(cls, entry):
-        user = User.ApiModel_from_dictionary(entry['from'])
+    def object_from_dictionary(cls, entry):
+        user = User.object_from_dictionary(entry['from'])
         text = entry['text']
         created_at = timestamp_to_datetime(entry['created_time'])
         id = entry['id']
@@ -89,7 +89,7 @@ class Location(ApiModel):
             setattr(self, key, value)
 
     @classmethod
-    def ApiModel_from_dictionary(cls, entry):
+    def object_from_dictionary(cls, entry):
         point = None
         if entry['latitude']:
             point = Point(entry['latitude'],

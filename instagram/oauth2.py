@@ -29,36 +29,41 @@ class OAuth2API(object):
         self.access_token = access_token
         self.redirect_uri = redirect_uri
 
-    def get_authorize_url(self):
+    def get_authorize_url(self, scope=None):
         req = OAuth2AuthExchangeRequest(self)
-        return req.get_authorize_url()
+        return req.get_authorize_url(scope = scope)
         
-    def get_authorize_login_url(self):
+    def get_authorize_login_url(self, scope=None):
+        """ scope should be a tuple or list of requested scope access levels """
         req = OAuth2AuthExchangeRequest(self)
-        return req.get_authorize_login_url()
+        return req.get_authorize_login_url(scope = scope)
 
     def exchange_code_for_access_token(self, code):
         req = OAuth2AuthExchangeRequest(self)
-        return req.exchange_for_access_token(code=code)
+        return req.exchange_for_access_token(code = code)
 
-    def exchange_xauth_login_for_access_token(self, username, password):
+    def exchange_xauth_login_for_access_token(self, username, password, scope=None):
+        """ scope should be a tuple or list of requested scope access levels """
         req = OAuth2AuthExchangeRequest(self)
-        return req.exchange_for_access_token(username=username, password=password)
+        return req.exchange_for_access_token(username = username, password = password,
+                                             scope = scope)
 
 class OAuth2AuthExchangeRequest(object):
     def __init__(self, api):
         self.api = api
 
-    def _url_for_authorize(self):
+    def _url_for_authorize(self, scope=None):
         client_params = {
             "client_id": self.api.client_id,
             "response_type": "code",
             "redirect_uri": self.api.redirect_uri
         }
+        if scope:
+            client_params.update(scope = ' '.join(scope))
         url_params = urllib.urlencode(client_params)
         return "%s?%s" % (self.api.authorize_url, url_params)
 
-    def _data_for_exchange(self, code=None, username=None, password=None):
+    def _data_for_exchange(self, code=None, username=None, password=None, scope=None):
         client_params = {
             "client_id": self.api.client_id,
             "client_secret": self.api.client_secret,
@@ -68,26 +73,28 @@ class OAuth2AuthExchangeRequest(object):
         if code:
             client_params.update(code=code)
         elif username and password:
-            client_params.update(x_auth_username=username, 
-                                 x_auth_password=password,
-                                 x_auth_mode="client_auth")
+            client_params.update(username = username, 
+                                 password = password,
+                                 grant_type = "password")
+            if scope:
+                client_params.update(scope = ' '.join(scope))
         return urllib.urlencode(client_params)
 
-    def get_authorize_url(self):
-        return self._url_for_authorize()
+    def get_authorize_url(self, scope=None):
+        return self._url_for_authorize(scope = scope)
 
-    def get_authorize_login_url(self):
+    def get_authorize_login_url(self, scope=None):
         http_object = Http()
 
-        url = self._url_for_authorize()
+        url = self._url_for_authorize(scope = scope)
         response, content = http_object.request(url)
         if response['status'] != '200':
             raise OAuth2AuthExchangeError("The server returned a non-200 response for URL %s" % url)
         redirected_to = response['content-location']
         return redirected_to
 
-    def exchange_for_access_token(self, code=None, username=None, password=None):
-        data = self._data_for_exchange(code, username, password)
+    def exchange_for_access_token(self, code=None, username=None, password=None, scope=None):
+        data = self._data_for_exchange(code, username, password, scope = scope)
         http_object = Http()
         url = self.api.access_token_url
         response, content = http_object.request(url, method="POST", body=data)
