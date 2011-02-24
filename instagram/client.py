@@ -184,22 +184,28 @@ class InstagramAPI(oauth2.OAuth2API):
 
 
 
-    def _make_subscription_action(method):
+    def _make_subscription_action(method, include=None, exclude=None):
+        accepts_parameters = ["object", 
+                              "aspect", 
+                              "object_id", # Optional if subscribing to all users
+                              "callback_url", 
+                              "lat", # Geography 
+                              "lng", # Geography 
+                              "radius", # Geography 
+                              "verify_token"]
+
+        if include:
+            accepts_parameters.extend(include)
+        if exclude:
+            accepts_parameters = [x for x in accepts_parameters if x not in exclude]
         return bind_method(
             path = "/subscriptions",
             method = method,
-            accepts_parameters = ["object", 
-                                  "aspect", 
-                                  "object_id", # Optional if subscribing to all users
-                                  "callback_url", 
-                                  "lat", # Geography 
-                                  "lng", # Geography 
-                                  "radius", # Geography 
-                                  "verify_token"],
+            accepts_parameters = accepts_parameters,
             include_secret = True,
             objectify_response = False
         )
 
     create_subscription = _make_subscription_action('POST')
     list_subscriptions = _make_subscription_action('GET')
-    delete_subscriptions = _make_subscription_action('DELETE')
+    delete_subscriptions = _make_subscription_action('DELETE', exclude=['object_id'], include=['id'])
