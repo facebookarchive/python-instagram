@@ -2,12 +2,12 @@
 from setuptools import setup, find_packages
 
 setup(name="python-instagram",
-      version="0.5.0",
+      version="0.6.0",
       description="Instagram API client",
       license="MIT",
       install_requires=["simplejson","httplib2"],
       author="Instagram, Inc",
-      author_email="developers@instagram.com",
+      author_email="apidevelopers@instagram.com",
       url="http://github.com/Instagram/python-instagram",
       packages = find_packages(),
       keywords= "instagram",
