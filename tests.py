@@ -172,14 +172,14 @@ class InstagramAPITests(unittest.TestCase):
         self.api.user_followed_by()
 
     def test_user_incoming_requests(self):
-	self.api.user_incoming_requests()
+        self.api.user_incoming_requests()
 
     def test_change_relationship(self):
-	self.api.change_user_relationship(user_id=10, action="follow")
-	# test shortcuts as well
-	self.api.follow_user(user_id='10')
-	self.api.unfollow_user(user_id='10')
-	
+        self.api.change_user_relationship(user_id=10, action="follow")
+        # test shortcuts as well
+        self.api.follow_user(user_id='10')    
+        self.api.unfollow_user(user_id='10')
+    
     def test_geography_recent_media(self):
         self.api.geography_recent_media(geography_id=1)
 
