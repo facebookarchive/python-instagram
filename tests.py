@@ -179,6 +179,9 @@ class InstagramAPITests(unittest.TestCase):
 	# test shortcuts as well
 	self.api.follow_user(user_id='10')
 	self.api.unfollow_user(user_id='10')
+	
+    def test_geography_recent_media(self):
+        self.api.geography_recent_media(geography_id=1)
 
 if __name__ == '__main__':
     if not TEST_AUTH:
