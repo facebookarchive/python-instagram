@@ -80,10 +80,13 @@ class Comment(ApiModel):
         text = entry['text']
         created_at = timestamp_to_datetime(entry['created_time'])
         id = entry['id']
-        return Comment(id=id, user=user, text=text, created_at=created_at)
+        return cls(id=id, user=user, text=text, created_at=created_at)
 
     def __unicode__(self):
         print "%s said \"%s\"" % (self.user.username, self.message)
+
+class Caption(Comment): 
+    pass
 
 class Point(ApiModel):
     def __init__(self, latitude, longitude):
