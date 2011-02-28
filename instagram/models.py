@@ -46,7 +46,7 @@ class Media(ApiModel):
         new_media.comments = []
         for comment in entry['comments']['data']:
             new_media.comments.append(Comment.object_from_dictionary(comment))
-        
+
         new_media.caption = None
         if entry['caption']:
             new_media.caption = Caption.object_from_dictionary(entry['caption'])
@@ -89,7 +89,7 @@ class Comment(ApiModel):
     def __unicode__(self):
         return "%s said \"%s\"" % (self.user.username, self.message)
 
-class Caption(Comment): 
+class Caption(Comment):
     pass
 
 class Point(ApiModel):
