@@ -22,7 +22,7 @@ class OAuth2API(object):
     protocol = "https"
     # override with 'Instagram', etc
     api_name = "Generic API"
-    
+
     def __init__(self, client_id=None, client_secret=None, access_token=None, redirect_uri=None):
         self.client_id = client_id
         self.client_secret = client_secret
@@ -32,7 +32,7 @@ class OAuth2API(object):
     def get_authorize_url(self, scope=None):
         req = OAuth2AuthExchangeRequest(self)
         return req.get_authorize_url(scope = scope)
-        
+
     def get_authorize_login_url(self, scope=None):
         """ scope should be a tuple or list of requested scope access levels """
         req = OAuth2AuthExchangeRequest(self)
@@ -41,6 +41,10 @@ class OAuth2API(object):
     def exchange_code_for_access_token(self, code):
         req = OAuth2AuthExchangeRequest(self)
         return req.exchange_for_access_token(code = code)
+
+    def exchange_user_id_for_access_token(self, user_id):
+        req = OAuth2AuthExchangeRequest(self)
+        return req.exchange_for_access_token(user_id = user_id)
 
     def exchange_xauth_login_for_access_token(self, username, password, scope=None):
         """ scope should be a tuple or list of requested scope access levels """
@@ -63,7 +67,7 @@ class OAuth2AuthExchangeRequest(object):
         url_params = urllib.urlencode(client_params)
         return "%s?%s" % (self.api.authorize_url, url_params)
 
-    def _data_for_exchange(self, code=None, username=None, password=None, scope=None):
+    def _data_for_exchange(self, code=None, username=None, password=None, scope=None, user_id=None):
         client_params = {
             "client_id": self.api.client_id,
             "client_secret": self.api.client_secret,
@@ -73,11 +77,13 @@ class OAuth2AuthExchangeRequest(object):
         if code:
             client_params.update(code=code)
         elif username and password:
-            client_params.update(username = username, 
+            client_params.update(username = username,
                                  password = password,
                                  grant_type = "password")
             if scope:
                 client_params.update(scope = ' '.join(scope))
+        elif user_id:
+            client_params.update(user_id = user_id)
         return urllib.urlencode(client_params)
 
     def get_authorize_url(self, scope=None):
@@ -93,8 +99,8 @@ class OAuth2AuthExchangeRequest(object):
         redirected_to = response['content-location']
         return redirected_to
 
-    def exchange_for_access_token(self, code=None, username=None, password=None, scope=None):
-        data = self._data_for_exchange(code, username, password, scope = scope)
+    def exchange_for_access_token(self, code=None, username=None, password=None, scope=None, user_id=None):
+        data = self._data_for_exchange(code, username, password, scope = scope, user_id = user_id)
         http_object = Http()
         url = self.api.access_token_url
         response, content = http_object.request(url, method="POST", body=data)
@@ -113,10 +119,10 @@ class OAuth2Request(object):
 
     def get_request(self, path, **kwargs):
         return self.make_request(self.prepare_request("GET", path, kwargs))
-    
+
     def post_request(self, path, **kwargs):
         return self.make_request(self.prepare_request("POST", path, kwargs))
-        
+
     def _full_url(self, path, include_secret=False):
         return "%s://%s%s%s%s" % (self.api.protocol, 
                                   self.api.host, 
@@ -142,7 +148,7 @@ class OAuth2Request(object):
 
     def _post_body(self, params):
         return urllib.urlencode(params)
-    
+
     def _encode_multipart(params, files):
         boundary = "MuL7Ip4rt80uND4rYF0o"
 
@@ -153,7 +159,7 @@ class OAuth2Request(object):
             return ("--" + boundary,
                     'Content-Disposition: form-data; name="%s"' % (field_name),
                     "", str(params[field_name]))
-        
+
         def encode_file(field_name):
             file_name, file_handle = files[field_name]
             return ("--" + boundary,
@@ -168,10 +174,10 @@ class OAuth2Request(object):
             lines.extend(encode_file(field))
         lines.extend(("--%s--" % (boundary), ""))
         body = "\r\n".join (lines)
-        
+
         headers = {"Content-Type": "multipart/form-data; boundary=" + boundary,
                    "Content-Length": str(len(body))}
-        
+
         return body, headers
 
     def prepare_and_make_request(self, method, path, params, include_secret=False):
@@ -185,7 +191,7 @@ class OAuth2Request(object):
         if not params.get('files'):
             if method == "POST":
                 body = self._post_body(params)
-                headers = {'Content-type': 'application/x-www-form-urlencoded'}                
+                headers = {'Content-type': 'application/x-www-form-urlencoded'}
                 url = self._full_url(path, include_secret)
             else:
                 url = self._full_url_with_params(path, params, include_secret)
