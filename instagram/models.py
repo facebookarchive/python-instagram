@@ -61,6 +61,8 @@ class Media(ApiModel):
             new_media.caption = Comment.object_from_dictionary(entry['caption'])
 
         new_media.link = entry['link']
+        
+        new_media.filter = entry['filter']
 
         return new_media
 
