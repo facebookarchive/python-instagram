@@ -53,7 +53,7 @@ class Media(ApiModel):
 
         new_media.created_time = timestamp_to_datetime(entry['created_time'])
 
-        if entry['location']:
+        if entry['location'] and hasattr(entry, 'id'):
             new_media.location = Location.object_from_dictionary(entry['location'])
 
         new_media.caption = None
@@ -61,7 +61,7 @@ class Media(ApiModel):
             new_media.caption = Comment.object_from_dictionary(entry['caption'])
 
         new_media.link = entry['link']
-        
+
         new_media.filter = entry['filter']
 
         return new_media
@@ -111,9 +111,9 @@ class Location(ApiModel):
         if 'latitude' in entry:
             point = Point(entry.get('latitude'),
                           entry.get('longitude'))
-        location = cls(entry.get('id'),
+        location = cls(entry.get('id', 0),
                        point=point,
-                       name=entry.get('name'))
+                       name=entry.get('name', ''))
         return location
 
 class User(ApiModel):
