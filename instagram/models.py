@@ -53,7 +53,7 @@ class Media(ApiModel):
 
         new_media.created_time = timestamp_to_datetime(entry['created_time'])
 
-        if entry['location'] and hasattr(entry, 'id'):
+        if entry['location'] and entry.has_key('id'):
             new_media.location = Location.object_from_dictionary(entry['location'])
 
         new_media.caption = None
