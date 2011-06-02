@@ -113,6 +113,9 @@ class InstagramAPITests(unittest.TestCase):
         for page in generator:
             str(generator)
 
+    def test_user_liked_media(self):
+        self.api.user_liked_media(count=10)
+
     def test_user_recent_media(self):
         self.api.user_recent_media(count=10)
 
