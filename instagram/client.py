@@ -103,13 +103,15 @@ class InstagramAPI(oauth2.OAuth2API):
                 root_class = User)
 
     user_follows = bind_method(
-                path = "/users/{user_id}/follows/users",
+                path = "/users/{user_id}/follows",
                 accepts_parameters = ["user_id"],
+                paginates = True,
                 root_class = User)
 
     user_followed_by = bind_method(
-                path = "/users/{user_id}/followed-by/users",
+                path = "/users/{user_id}/followed-by",
                 accepts_parameters = ["user_id"],
+                paginates = True,
                 root_class = User)
 
     user = bind_method(
@@ -152,16 +154,6 @@ class InstagramAPI(oauth2.OAuth2API):
                 accepts_parameters = ["tag_name"],
                 root_class = Tag,
                 response_type = "entry")
-
-    user_follows = bind_method(
-                path = "/users/self/follows",
-                root_class = User,
-                paginates = True)
-
-    user_followed_by = bind_method(
-                path = "/users/self/followed-by",
-                root_class = User,
-                paginates = True)
 
     user_incoming_requests = bind_method(
                 path = "/users/self/requested-by",
