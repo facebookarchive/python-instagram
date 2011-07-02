@@ -99,7 +99,7 @@ class Location(ApiModel):
             point = Point(entry.get('latitude'),
                           entry.get('longitude'))
         location = cls(entry.get('id'),
-                       point,
+                       point=point,
                        name=entry.get('name'))
         return location
 
