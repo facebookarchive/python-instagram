@@ -42,7 +42,7 @@ def bind_method(**config):
         def __init__(self, api, *args, **kwargs):
             self.api = api
             self.as_generator = kwargs.pop("as_generator", False)
-            self.return_raw_response = kwargs.pop("return_raw_responses", False)
+            self.return_json = kwargs.pop("return_json", False)
             self.max_pages = kwargs.pop("max_pages", 3)
             self.parameters = {}
             self._build_parameters(args, kwargs)
@@ -87,8 +87,7 @@ def bind_method(**config):
             if response['status'] == '503':
                 raise InstagramAPIError(response['status'], "Rate limited", "Your client is making too many request per second")
             content_obj = simplejson.loads(content)
-            response_objects = []
-            raw_response = []
+            responses = []
             status_code = content_obj['meta']['code']
             if status_code == 200:
                 if not self.objectify_response:
@@ -96,21 +95,18 @@ def bind_method(**config):
 
                 if self.response_type == 'list':
                     for entry in content_obj['data']:
-                        if self.return_raw_response:
-                            raw_response.append(entry)
+                        if self.return_json:
+                            responses.append(entry)
                         else:
                             obj = self.root_class.object_from_dictionary(entry)
-                            response_objects.append(obj)
+                            responses.append(obj)
                 elif self.response_type == 'entry':
                     data = content_obj['data']
-                    if self.return_raw_response:
-                        raw_response = data
+                    if self.return_json:
+                        responses = data
                     else:
-                        response_objects = self.root_class.object_from_dictionary(data)
-                if self.return_raw_response:
-                    return raw_response, content_obj.get('pagination', {}).get('next_url') 
-                else:
-                    return response_objects, content_obj.get('pagination', {}).get('next_url') 
+                        responses = self.root_class.object_from_dictionary(data)
+                return responses, content_obj.get('pagination', {}).get('next_url') 
             else:
                 raise InstagramAPIError(status_code, content_obj['meta']['error_type'], content_obj['meta']['error_message'])
 
