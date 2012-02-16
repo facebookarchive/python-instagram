@@ -87,7 +87,7 @@ def bind_method(**config):
             if response['status'] == '503':
                 raise InstagramAPIError(response['status'], "Rate limited", "Your client is making too many request per second")
             content_obj = simplejson.loads(content)
-            responses = []
+            api_responses = []
             status_code = content_obj['meta']['code']
             if status_code == 200:
                 if not self.objectify_response:
@@ -96,26 +96,26 @@ def bind_method(**config):
                 if self.response_type == 'list':
                     for entry in content_obj['data']:
                         if self.return_json:
-                            responses.append(entry)
+                            api_responses.append(entry)
                         else:
                             obj = self.root_class.object_from_dictionary(entry)
-                            responses.append(obj)
+                            api_responses.append(obj)
                 elif self.response_type == 'entry':
                     data = content_obj['data']
                     if self.return_json:
-                        responses = data
+                        api_responses = data
                     else:
-                        responses = self.root_class.object_from_dictionary(data)
-                return responses, content_obj.get('pagination', {}).get('next_url') 
+                        api_responses = self.root_class.object_from_dictionary(data)
+                return api_responses, content_obj.get('pagination', {}).get('next_url') 
             else:
                 raise InstagramAPIError(status_code, content_obj['meta']['error_type'], content_obj['meta']['error_message'])
 
         def _paginator_with_url(self, url, method="GET", body=None, headers={}):
             pages_read = 0
             while url and pages_read < self.max_pages:
-                resp, url = self._do_api_request(url, method, body, headers)
+                api_responses, url = self._do_api_request(url, method, body, headers)
                 pages_read += 1
-                yield resp, url 
+                yield api_responses, url 
             return
 
         def execute(self):
