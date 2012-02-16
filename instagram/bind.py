@@ -42,6 +42,7 @@ def bind_method(**config):
         def __init__(self, api, *args, **kwargs):
             self.api = api
             self.as_generator = kwargs.pop("as_generator", False)
+            self.return_raw_response = kwargs.pop("return_raw_responses", False)
             self.max_pages = kwargs.pop("max_pages", 3)
             self.parameters = {}
             self._build_parameters(args, kwargs)
@@ -87,6 +88,7 @@ def bind_method(**config):
                 raise InstagramAPIError(response['status'], "Rate limited", "Your client is making too many request per second")
             content_obj = simplejson.loads(content)
             response_objects = []
+            raw_response = []
             status_code = content_obj['meta']['code']
             if status_code == 200:
                 if not self.objectify_response:
@@ -94,20 +96,30 @@ def bind_method(**config):
 
                 if self.response_type == 'list':
                     for entry in content_obj['data']:
-                        obj = self.root_class.object_from_dictionary(entry)
-                        response_objects.append(obj)
+                        if self.return_raw_response:
+                            raw_response.append(entry)
+                        else:
+                            obj = self.root_class.object_from_dictionary(entry)
+                            response_objects.append(obj)
                 elif self.response_type == 'entry':
-                    response_objects = self.root_class.object_from_dictionary(content_obj['data'])
-                return response_objects, content_obj.get('pagination', {}).get('next_url') 
+                    data = content_obj['data']
+                    if self.return_raw_response:
+                        raw_response = data
+                    else:
+                        response_objects = self.root_class.object_from_dictionary(data)
+                if self.return_raw_response:
+                    return raw_response, content_obj.get('pagination', {}).get('next_url') 
+                else:
+                    return response_objects, content_obj.get('pagination', {}).get('next_url') 
             else:
                 raise InstagramAPIError(status_code, content_obj['meta']['error_type'], content_obj['meta']['error_message'])
 
         def _paginator_with_url(self, url, method="GET", body=None, headers={}):
             pages_read = 0
             while url and pages_read < self.max_pages:
-                 response_objects, url = self._do_api_request(url, method, body, headers)
-                 pages_read += 1
-                 yield response_objects, url 
+                resp, url = self._do_api_request(url, method, body, headers)
+                pages_read += 1
+                yield resp, url 
             return
 
         def execute(self):
