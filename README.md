@@ -4,7 +4,7 @@ A Python client for the Instagram REST and Search APIs
 
 Installation
 -----
-python setup.py install
+pip install python-instagram
 
 Requires
 -----
