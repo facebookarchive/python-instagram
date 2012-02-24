@@ -3,7 +3,6 @@ import urllib
 from httplib2 import Http
 import mimetypes
 
-
 class OAuth2AuthExchangeError(Exception):
     def __init__(self, description):
         self.description = description
@@ -124,10 +123,10 @@ class OAuth2Request(object):
         return self.make_request(self.prepare_request("POST", path, kwargs))
 
     def _full_url(self, path, include_secret=False):
-        return "%s://%s%s%s%s" % (self.api.protocol, 
-                                  self.api.host, 
-                                  self.api.base_path, 
-                                  path, 
+        return "%s://%s%s%s%s" % (self.api.protocol,
+                                  self.api.host,
+                                  self.api.base_path,
+                                  path,
                                   self._auth_query(include_secret))
 
     def _full_url_with_params(self, path, params, include_secret=False):

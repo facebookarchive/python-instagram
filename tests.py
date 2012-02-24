@@ -16,6 +16,10 @@ access_token = "DEBUG"
 redirect_uri = "http://example.com"
 
 class MockHttp(object):
+
+    def __init__(self, *args, **kwargs):
+        pass
+
     def request(self, url, method="GET", body=None, headers={}):
         fail_state = {
             'status':'400'
@@ -30,7 +34,7 @@ class MockHttp(object):
                 'status': '200',
                 'content-location':'http://example.com/redirect/login'
             }, None
-        
+
         if not 'access_token' in options and not 'client_id' in options:
             fn_name += '_unauthorized'
         if 'self' in url and not 'access_token' in options:
@@ -177,9 +181,9 @@ class InstagramAPITests(unittest.TestCase):
     def test_change_relationship(self):
         self.api.change_user_relationship(user_id=10, action="follow")
         # test shortcuts as well
-        self.api.follow_user(user_id='10')    
+        self.api.follow_user(user_id='10')
         self.api.unfollow_user(user_id='10')
-    
+
     def test_geography_recent_media(self):
         self.api.geography_recent_media(geography_id=1)
 
