@@ -4,7 +4,7 @@ A Python client for the Instagram REST and Search APIs
 
 Installation
 -----
-pip install instagram
+python setup.py install
 
 Requires
 -----
@@ -18,8 +18,8 @@ updates, and news about the Instagram gem.
 
 Obtaining an access token
 -----
-You can use the provided get_access_token.py script to obtain an access token for yourself. 
-It will prompt you for your app's Client ID, Client Secret, and Redirect URI, 
+You can use the provided get_access_token.py script to obtain an access token for yourself.
+It will prompt you for your app's Client ID, Client Secret, and Redirect URI,
 and walk you through instructions for getting your own access token for your app.
 
 Usage
@@ -36,9 +36,8 @@ Sample app
 ------
 We also provide a one-file sample app using bottle (you'll have to 'pip install bottle' first). To try it out:
 
-  * Set your redirect URI to 'http://localhost:8515/outh_callback' in your dev profile
-  * Open up sample\_app.py, update it with your client\_id and secret, and set redirect URI to 'http://localhost:8515/outh_callback' 
+  * Set your redirect URI to 'http://localhost:8515/oauth_callback' in your dev profile
+  * Open up sample\_app.py, update it with your client\_id and secret, and set redirect URI to 'http://localhost:8515/oauth_callback'
   * Run the file; it will host a local server on port 8515.
   * Try visiting http://localhost:8515 in your browser
-
 
