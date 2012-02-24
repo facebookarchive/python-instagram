@@ -62,7 +62,7 @@ class Media(ApiModel):
 
         new_media.link = entry['link']
 
-        new_media.filter = entry['filter']
+        new_media.filter = entry.get('filter')
 
         return new_media
 
