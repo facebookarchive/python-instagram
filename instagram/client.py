@@ -57,7 +57,7 @@ class InstagramAPI(oauth2.OAuth2API):
                 path = "/media/{media_id}/comments",
                 method = "POST",
                 accepts_parameters = ['media_id', 'text'],
-                response_type = "entry",
+                response_type = "empty",
                 root_class = Comment)
 
     delete_comment = bind_method(
