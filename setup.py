@@ -2,7 +2,7 @@
 from setuptools import setup, find_packages
 
 setup(name="python-instagram",
-      version="0.7.0",
+      version="0.7.1",
       description="Instagram API client",
       license="MIT",
       install_requires=["simplejson","httplib2"],
