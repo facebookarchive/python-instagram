@@ -16,7 +16,7 @@ class InstagramClientError(Exception):
         return self.error_message
 
 class InstagramAPIError(Exception):
-    
+
     def __init__(self, status_code, error_type, error_message, *args, **kwargs):
         self.status_code = status_code
         self.error_type = error_type
@@ -46,7 +46,7 @@ def bind_method(**config):
             self.max_pages = kwargs.pop("max_pages", 3)
             self.parameters = {}
             self._build_parameters(args, kwargs)
-            self._build_path() 
+            self._build_path()
 
         def _build_parameters(self, args, kwargs):
             # via tweepy https://github.com/joshthecoder/tweepy/
@@ -107,7 +107,9 @@ def bind_method(**config):
                         api_responses = data
                     else:
                         api_responses = self.root_class.object_from_dictionary(data)
-                return api_responses, content_obj.get('pagination', {}).get('next_url') 
+                elif self.response_type == 'empty':
+                    pass
+                return api_responses, content_obj.get('pagination', {}).get('next_url')
             else:
                 raise InstagramAPIError(status_code, content_obj['meta']['error_type'], content_obj['meta']['error_message'])
 
@@ -117,13 +119,13 @@ def bind_method(**config):
             while url and pages_read < self.max_pages:
                 api_responses, url = self._do_api_request(url, method, body, headers)
                 pages_read += 1
-                yield api_responses, url 
+                yield api_responses, url
             return
 
         def execute(self):
-            url, method, body, headers = OAuth2Request(self.api).prepare_request(self.method, 
-                                                                                 self.path, 
-                                                                                 self.parameters, 
+            url, method, body, headers = OAuth2Request(self.api).prepare_request(self.method,
+                                                                                 self.path,
+                                                                                 self.parameters,
                                                                                  include_secret = self.include_secret)
             if self.as_generator:
                 return self._paginator_with_url(url, method, body, headers)
