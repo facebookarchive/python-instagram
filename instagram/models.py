@@ -97,7 +97,7 @@ class Comment(ApiModel):
         text = entry['text']
         created_at = timestamp_to_datetime(entry['created_time'])
         id = entry['id']
-        return cls(id=id, user=user, text=text, created_at=created_at)
+        return Comment(id=id, user=user, text=text, created_at=created_at)
 
     def __unicode__(self):
         return "Comment: %s said \"%s\"" % (self.user.username, self.text)
@@ -125,7 +125,7 @@ class Location(ApiModel):
         if 'latitude' in entry:
             point = Point(entry.get('latitude'),
                           entry.get('longitude'))
-        location = cls(entry.get('id', 0),
+        location = Location(entry.get('id', 0),
                        point=point,
                        name=entry.get('name', ''))
         return location
