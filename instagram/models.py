@@ -89,9 +89,6 @@ class Comment(ApiModel):
     def __unicode__(self):
         return "%s said \"%s\"" % (self.user.username, self.message)
 
-class Caption(Comment):
-    pass
-
 class Point(ApiModel):
     def __init__(self, latitude, longitude):
         self.latitude = latitude
@@ -130,5 +127,3 @@ class Relationship(ApiModel):
         self.incoming_status = incoming_status
         self.outgoing_status = outgoing_status
         self.target_user_is_private = target_user_is_private
-
-
