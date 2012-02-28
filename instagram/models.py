@@ -15,6 +15,9 @@ class Image(ApiModel):
         self.height = height
         self.width = width
 
+    def __unicode__(self):
+        return "Image: %s" % self.url
+
 class Media(ApiModel):
 
     def __init__(self, id=None, **kwargs):
@@ -24,6 +27,9 @@ class Media(ApiModel):
 
     def get_standard_resolution_url(self):
         return self.images['standard_resolution'].url
+
+    def __unicode__(self):
+        return "Media: %s" % self.id
 
     @classmethod
     def object_from_dictionary(cls, entry):
@@ -101,6 +107,9 @@ class Point(ApiModel):
         self.latitude = latitude
         self.longitude = longitude
 
+    def __unicode__(self):
+        return "Point: (%s, %s)" % (self.latitude, self.longitude)
+
 class Location(ApiModel):
     def __init__(self, id, *args, **kwargs):
         self.id = id
@@ -117,6 +126,9 @@ class Location(ApiModel):
                        point=point,
                        name=entry.get('name', ''))
         return location
+
+    def __unicode__(self):
+        return "Location: %s (%s)" % (self.id, self.point)
 
 class User(ApiModel):
 
