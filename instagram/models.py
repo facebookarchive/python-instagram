@@ -8,6 +8,9 @@ class ApiModel(object):
         entry_str_dict = dict([(str(key), value) for key,value in entry.items()])
         return cls(**entry_str_dict)
 
+    def __repr__(self):
+        return unicode(self).encode('utf8')
+
 class Image(ApiModel):
 
     def __init__(self, url, width, height):
@@ -80,8 +83,8 @@ class Tag(ApiModel):
         for key,value in kwargs.iteritems():
             setattr(self, key, value)
 
-    def __str__(self):
-        return "Tag %s" % self.name
+    def __unicode__(self):
+        return "Tag: %s" % self.name
 
 class Comment(ApiModel):
     def __init__(self, *args, **kwargs):
@@ -137,8 +140,8 @@ class User(ApiModel):
         for key,value in kwargs.iteritems():
             setattr(self, key, value)
 
-    def __str__(self):
-        return "User %s" % self.username
+    def __unicode__(self):
+        return "User: %s" % self.username
 
 class Relationship(ApiModel):
 
