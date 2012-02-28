@@ -100,7 +100,7 @@ class Comment(ApiModel):
         return cls(id=id, user=user, text=text, created_at=created_at)
 
     def __unicode__(self):
-        return "%s said \"%s\"" % (self.user.username, self.message)
+        return "Comment: %s said \"%s\"" % (self.user.username, self.text)
 
 class Caption(Comment):
     pass
