@@ -11,10 +11,12 @@ Requires
   * httplib2
   * simplejson
 
-Follow @instagramapi on Twitter
-----------------------------
-You can [follow @instagramapi on Twitter](http://twitter.com/#!/instagramapi) for announcements,
-updates, and news about the Instagram gem.
+
+Discussion
+------
+
+Visit [our Google Group](http://groups.google.com/group/instagram-api-developers) to discuss the Instagram API.
+
 
 Obtaining an access token
 -----
@@ -40,4 +42,3 @@ We also provide a one-file sample app using bottle (you'll have to 'pip install 
   * Open up sample\_app.py, update it with your client\_id and secret, and set redirect URI to 'http://localhost:8515/oauth_callback'
   * Run the file; it will host a local server on port 8515.
   * Try visiting http://localhost:8515 in your browser
-
