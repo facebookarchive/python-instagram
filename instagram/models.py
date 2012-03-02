@@ -68,7 +68,6 @@ class Media(ApiModel):
         if entry['caption']:
             new_media.caption = Comment.object_from_dictionary(entry['caption'])
 
-        new_media.tags = entry['tags']
         if entry['tags']:
             new_media.tags = []
             for tag in entry['tags']:
