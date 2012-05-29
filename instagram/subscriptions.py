@@ -1,17 +1,6 @@
 import hmac
 import hashlib
-
-try:
-    import simplejson
-except ImportError:
-    try:
-        import json as simplejson
-    except ImportError:
-        try:
-            from django.utils import simplejson
-        except ImportError:
-            raise ImportError('A json library is required to use this python library. Lol, yay for being verbose. ;)')
-
+from json_import import simplejson
 
 class SubscriptionType:
     TAG = 'tag'
