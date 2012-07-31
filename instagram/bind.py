@@ -98,6 +98,11 @@ def bind_method(**config):
             except ValueError:
                 raise InstagramClientError('Unable to parse response, not valid JSON.')
 
+            # Handle OAuthRateLimitExceeded from Instagram's Nginx which uses different format to documented api responses
+            if content_obj.get('code') == '420':
+                error_message = content_obj.get('error_message') or "Your client is making too many request per second"
+                raise InstagramAPIError('420', "Rate limited", error_message)
+
             api_responses = []
             status_code = content_obj['meta']['code']
             if status_code == 200:
