@@ -100,7 +100,7 @@ def bind_method(**config):
 
             # Handle OAuthRateLimitExceeded from Instagram's Nginx which uses different format to documented api responses
             if not content_obj.has_key('meta'):
-                if content_obj.get('code') == '420':
+                if content_obj.get('code') == 420:
                     error_message = content_obj.get('error_message') or "Your client is making too many request per second"
                     raise InstagramAPIError(420, "Rate limited", error_message)
                 raise InstagramAPIError(content_obj.has_key('code'), content_obj.has_key('error_type'), content_obj.has_key('error_message'))
