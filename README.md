@@ -81,6 +81,7 @@ Along with that, you would typically register subscription "reactors" for proces
 See the provided sample app for an example of making a subscription, reacting to it, an processing the updates.
 
 You can also use the API to list and delete subscriptions:
+
     api.list_subscriptions()
     api.delete_subscriptions(id=342342)
    
