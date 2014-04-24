@@ -101,6 +101,8 @@ def bind_method(**config):
 
             api_responses = []
             status_code = content_obj['meta']['code']
+            self.api.x_ratelimit_remaining = response.get("x-ratelimit-remaining",None)
+            self.api.x_ratelimit = response.get("x-ratelimit-limit",None)
             if status_code == 200:
                 if not self.objectify_response:
                     return content_obj, None

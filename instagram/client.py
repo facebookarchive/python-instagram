@@ -17,6 +17,8 @@ class InstagramAPI(oauth2.OAuth2API):
     access_token_url = "https://api.instagram.com/oauth/access_token"
     protocol = "https"
     api_name = "Instagram"
+    x_ratelimit_remaining  = None
+    x_ratelimit = None
 
     def __init__(self, *args, **kwargs):
         format = kwargs.get('format', 'json')
@@ -33,7 +35,7 @@ class InstagramAPI(oauth2.OAuth2API):
 
     media_search = bind_method(
                 path="/media/search",
-                accepts_parameters=SEARCH_ACCEPT_PARAMETERS + ['lat', 'lng', 'min_timestamp', 'max_timestamp'],
+                accepts_parameters=SEARCH_ACCEPT_PARAMETERS + ['lat', 'lng', 'min_timestamp', 'max_timestamp', 'distance'],
                 root_class=Media)
 
     media_likes = bind_method(
