@@ -10,8 +10,8 @@ plugin = bottle_session.SessionPlugin(cookie_lifetime=600)
 app.install(plugin)
 
 CONFIG = {
-    'client_id': 'dc8c85c161354f7ca30eb604659ad050',
-    'client_secret': 'a028e0af338e40c8bdc9b64d8bb93841',
+    'client_id': '<client_id>',
+    'client_secret': '<client_secret>',
     'redirect_uri': 'http://localhost:8515/oauth_callback'
 }
 
@@ -74,7 +74,7 @@ def on_recent(session):
         photos = []
         for media in recent_media:
             if(media.type == 'video'):
-                photos.append('<video controls width="150" height="150"><source type="video/mp4" src="%s"/></video>' % (media.videos['low_resolution'].url))
+                photos.append('<video controls width height="150"><source type="video/mp4" src="%s"/></video>' % (media.videos['low_resolution'].url))
             else:
                 photos.append('<img src="%s"/>' % (media.images['thumbnail'].url))
         content += ''.join(photos)
