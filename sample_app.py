@@ -74,9 +74,9 @@ def on_recent(session):
         photos = []
         for media in recent_media:
             if(media.type == 'video'):
-                photos.append('<video controls width height="150"><source type="video/mp4" src="%s"/></video>' % (media.videos['low_resolution'].url))
+                photos.append('<video controls width height="150"><source type="video/mp4" src="%s"/></video>' % (media.get_standard_resolution_url()))
             else:
-                photos.append('<img src="%s"/>' % (media.images['thumbnail'].url))
+                photos.append('<img src="%s"/>' % (media.get_low_resolution_url()))
         content += ''.join(photos)
     except Exception, e:
         print e              
@@ -93,12 +93,12 @@ def on_user_media_feed(session):
         media_feed, next = api.user_media_feed()
         photos = []
         for media in media_feed:
-            photos.append('<img src="%s"/>' % media.images['thumbnail'].url)
+            photos.append('<img src="%s"/>' % media.get_standard_resolution_url())
         counter = 1
         while next and counter < 3:
             media_feed, next = api.user_media_feed(with_next_url=next)
             for media in media_feed:
-                photos.append('<img src="%s"/>' % media.images['thumbnail'].url)
+                photos.append('<img src="%s"/>' % media.get_standard_resolution_url())
             counter += 1
         content += ''.join(photos)
     except Exception, e:
@@ -116,7 +116,7 @@ def location_recent_media(session):
         recent_media, next = api.location_recent_media(location_id=514276)
         photos = []
         for media in recent_media:
-            photos.append('<img src="%s"/>' % media.images['thumbnail'].url)
+            photos.append('<img src="%s"/>' % media.get_standard_resolution_url())
         content += ''.join(photos)
     except Exception, e:
         print e              
@@ -133,7 +133,7 @@ def media_search(session):
         media_search = api.media_search(lat="37.7808851",lng="-122.3948632",distance=1000)
         photos = []
         for media in media_search:
-            photos.append('<img src="%s"/>' % media.images['thumbnail'].url)
+            photos.append('<img src="%s"/>' % media.get_standard_resolution_url())
         content += ''.join(photos)
     except Exception, e:
         print e              
@@ -150,7 +150,7 @@ def media_popular(session):
         media_search = api.media_popular()
         photos = []
         for media in media_search:
-            photos.append('<img src="%s"/>' % media.images['thumbnail'].url)
+            photos.append('<img src="%s"/>' % media.get_standard_resolution_url())
         content += ''.join(photos)
     except Exception, e:
         print e              
@@ -202,7 +202,7 @@ def tag_search(session):
         tag_recent_media, next = api.tag_recent_media(tag_name=tag_search[0].name)
         photos = []
         for tag_media in tag_recent_media:
-            photos.append('<img src="%s"/>' % tag_media.images['thumbnail'].url)
+            photos.append('<img src="%s"/>' % tag_media.get_standard_resolution_url())
         content += ''.join(photos)
     except Exception, e:
         print e              

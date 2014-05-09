@@ -6,6 +6,8 @@ class ApiModel(object):
     @classmethod
     def object_from_dictionary(cls, entry):
         # make dict keys all strings
+        if entry is None:
+            return ""
         entry_str_dict = dict([(str(key), value) for key, value in entry.items()])
         return cls(**entry_str_dict)
 
