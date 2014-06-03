@@ -46,18 +46,21 @@ class InstagramAPI(oauth2.OAuth2API):
     like_media = bind_method(
                 path="/media/{media_id}/likes",
                 method="POST",
+                signature=True,
                 accepts_parameters=['media_id'],
                 response_type="empty")
 
     unlike_media = bind_method(
                 path="/media/{media_id}/likes",
                 method="DELETE",
+                signature=True,
                 accepts_parameters=['media_id'],
                 response_type="empty")
 
     create_media_comment = bind_method(
                 path="/media/{media_id}/comments",
                 method="POST",
+                signature=True,
                 accepts_parameters=['media_id', 'text'],
                 response_type="empty",
                 root_class=Comment)
@@ -65,6 +68,7 @@ class InstagramAPI(oauth2.OAuth2API):
     delete_comment = bind_method(
                 path="/media/{media_id}/comments/{comment_id}",
                 method="DELETE",
+                signature=True,
                 accepts_parameters=['media_id', 'comment_id'],
                 response_type="empty")
 
@@ -170,6 +174,7 @@ class InstagramAPI(oauth2.OAuth2API):
     change_user_relationship = bind_method(
                 method="POST",
                 path="/users/{user_id}/relationship",
+                signature=True,
                 root_class=Relationship,
                 accepts_parameters=["user_id", "action"],
                 paginates=True,

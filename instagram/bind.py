@@ -2,6 +2,8 @@ import urllib
 from oauth2 import OAuth2Request
 import re
 from json_import import simplejson
+import hmac
+from hashlib import sha256
 
 re_path_template = re.compile('{\w+}')
 
@@ -41,6 +43,7 @@ def bind_method(**config):
         path = config['path']
         method = config.get('method', 'GET')
         accepts_parameters = config.get("accepts_parameters", [])
+        signature = config.get("signature", False)
         requires_target_user = config.get('requires_target_user', False)
         paginates = config.get('paginates', False)
         root_class = config.get('root_class', None)
@@ -107,6 +110,12 @@ def bind_method(**config):
 
         def _do_api_request(self, url, method="GET", body=None, headers=None):
             headers = headers or {}
+            if self.signature and self.api.client_ips != None and self.api.client_secret != None:
+                secret = self.api.client_secret
+                ips = self.api.client_ips
+                signature = hmac.new(secret, ips, sha256).hexdigest()
+                headers['X-Insta-Forwarded-For'] = '|'.join([ips, signature])
+
             response, content = OAuth2Request(self.api).make_request(url, method=method, body=body, headers=headers)
             if response['status'] == '503':
                 raise InstagramAPIError(response['status'], "Rate limited", "Your client is making too many request per second")
