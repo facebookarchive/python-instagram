@@ -1,6 +1,6 @@
 import oauth2
 from bind import bind_method
-from models import Media, User, Location, Tag, Comment, Relationship
+from models import MediaShortcode, Media, User, Location, Tag, Comment, Relationship
 
 MEDIA_ACCEPT_PARAMETERS = ["count", "max_id"]
 SEARCH_ACCEPT_PARAMETERS = ["q", "count"]
@@ -37,6 +37,13 @@ class InstagramAPI(oauth2.OAuth2API):
                 path="/media/search",
                 accepts_parameters=SEARCH_ACCEPT_PARAMETERS + ['lat', 'lng', 'min_timestamp', 'max_timestamp', 'distance'],
                 root_class=Media)
+
+    media_shortcode = bind_method(
+                path="/media/shortcode/{shortcode}",
+                accepts_parameters=['shortcode'],
+                response_type="entry",
+                root_class=MediaShortcode)
+
 
     media_likes = bind_method(
                 path="/media/{media_id}/likes",
