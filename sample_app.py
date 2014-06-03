@@ -10,8 +10,8 @@ plugin = bottle_session.SessionPlugin(cookie_lifetime=600)
 app.install(plugin)
 
 CONFIG = {
-    'client_id': '<client_id>',
-    'client_secret': '<client_secret>',
+    'client_id': '0512494a584a40e988476e77c45359ba',
+    'client_secret': 'd244e7e964274f82aba3167eb7791410',
     'redirect_uri': 'http://localhost:8515/oauth_callback'
 }
 
@@ -73,14 +73,31 @@ def on_recent(session):
         recent_media, next = api.user_recent_media()
         photos = []
         for media in recent_media:
+            photos.append('<div style="float:left;">')
             if(media.type == 'video'):
                 photos.append('<video controls width height="150"><source type="video/mp4" src="%s"/></video>' % (media.get_standard_resolution_url()))
             else:
                 photos.append('<img src="%s"/>' % (media.get_low_resolution_url()))
+            print media
+            photos.append("<br/> <a href='/media_like/%s'>Like</a>  <a href='/media_unlike/%s'>Un-Like</a>  LikesCount=%s</div>" % (media.id,media.id,media.like_count))
         content += ''.join(photos)
     except Exception, e:
         print e              
     return "%s %s <br/>Remaining API Calls = %s/%s" % (get_nav(),content,api.x_ratelimit_remaining,api.x_ratelimit)
+
+@route('/media_like/<id>')
+def media_like(session,id): 
+    access_token = session.get('access_token')
+    api = client.InstagramAPI(access_token=access_token)
+    api.like_media(media_id=id)
+    redirect("/recent")
+
+@route('/media_unlike/<id>')
+def media_unlike(session,id): 
+    access_token = session.get('access_token')
+    api = client.InstagramAPI(access_token=access_token)
+    api.unlike_media(media_id=id)
+    redirect("/recent")
 
 @route('/user_media_feed')
 def on_user_media_feed(session): 
