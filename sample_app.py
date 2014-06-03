@@ -10,8 +10,8 @@ plugin = bottle_session.SessionPlugin(cookie_lifetime=600)
 app.install(plugin)
 
 CONFIG = {
-    'client_id': '0512494a584a40e988476e77c45359ba',
-    'client_secret': 'd244e7e964274f82aba3167eb7791410',
+    'client_id': '<client_id>',
+    'client_secret': '<client_secret>',
     'redirect_uri': 'http://localhost:8515/oauth_callback'
 }
 
