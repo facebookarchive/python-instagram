@@ -109,6 +109,14 @@ class Media(ApiModel):
         return new_media
 
 
+class MediaShortcode(Media):
+
+    def __init__(self, shortcode=None, **kwargs):
+        self.shortcode = shortcode
+        for key, value in kwargs.iteritems():
+            setattr(self, key, value)
+
+
 class Tag(ApiModel):
     def __init__(self, name, **kwargs):
         self.name = name

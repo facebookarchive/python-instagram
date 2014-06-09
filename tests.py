@@ -99,6 +99,10 @@ class InstagramAPITests(unittest.TestCase):
         self.client_only_api.media_search(lat=37.7,lng=-122.22)
         self.api.media_search(lat=37.7,lng=-122.22)
 
+    def test_media_shortcode(self):
+        self.client_only_api.media_shortcode('os1NQjxtvF')
+        self.api.media_shortcode('os1NQjxtvF')
+
     def test_media_likes(self):
         self.client_only_api.media_likes(media_id=4)
 
