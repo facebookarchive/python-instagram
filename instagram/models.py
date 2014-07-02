@@ -155,7 +155,7 @@ class Point(ApiModel):
 
 class Location(ApiModel):
     def __init__(self, id, *args, **kwargs):
-        self.id = id
+        self.id = str(id)
         for key, value in kwargs.iteritems():
             setattr(self, key, value)
 
