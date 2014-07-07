@@ -162,7 +162,7 @@ def bind_method(**config):
         def _paginator_with_url(self, url, method="GET", body=None, headers=None):
             headers = headers or {}
             pages_read = 0
-            while url and pages_read < self.max_pages:
+            while url and (pages_read < self.max_pages or self.max_pages is None):
                 api_responses, url = self._do_api_request(url, method, body, headers)
                 pages_read += 1
                 yield api_responses, url
