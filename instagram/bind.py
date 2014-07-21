@@ -97,7 +97,11 @@ def bind_method(**config):
                 del self.parameters[name]
 
                 self.path = self.path.replace(variable, value)
-            self.path = self.path + '.%s' % self.api.format
+
+            if self.api.format:
+                self.path = self.path + '.%s' % self.api.format
+            else:
+                self.path = self.path
 
         def _build_pagination_info(self, content_obj):
             """Extract pagination information in the desired format."""
