@@ -130,7 +130,7 @@ def bind_method(**config):
                 if content_obj.get('code') == 420 or content_obj.get('code') == 429:
                     error_message = content_obj.get('error_message') or "Your client is making too many request per second"
                     raise InstagramAPIError(content_obj.get('code'), "Rate limited", error_message)
-                raise InstagramAPIError(content_obj.has_key('code'), content_obj.has_key('error_type'), content_obj.has_key('error_message'))
+                raise InstagramAPIError(content_obj.get('code'), content_obj.get('error_type'), content_obj.get('error_message'))
 
             api_responses = []
             status_code = content_obj['meta']['code']
