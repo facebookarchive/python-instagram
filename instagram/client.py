@@ -224,12 +224,14 @@ class InstagramAPI(oauth2.OAuth2API):
             accepts_parameters.extend(include)
         if exclude:
             accepts_parameters = [x for x in accepts_parameters if x not in exclude]
+        signature = False if method == 'GET' else True
         return bind_method(
             path="/subscriptions",
             method=method,
             accepts_parameters=accepts_parameters,
             include_secret=True,
-            objectify_response=False
+            objectify_response=False,
+            signature=signature,
         )
 
     create_subscription = _make_subscription_action('POST')
