@@ -40,6 +40,7 @@ def get_nav():
                     "<li><a href='/media_search'>Media Search</a> Calls media_search - Get a list of media close to a given latitude and longitude</li>"
                     "<li><a href='/media_popular'>Popular Media</a> Calls media_popular - Get a list of the overall most popular media items</li>"
                     "<li><a href='/user_search'>User Search</a> Calls user_search - Search for users on instagram, by name or username</li>"
+                    "<li><a href='/user_follows'>User Follows</a> Get the followers of @instagram uses pagination</li>"
                     "<li><a href='/location_search'>Location Search</a> Calls location_search - Search for a location by lat/lng</li>"      
                     "<li><a href='/tag_search'>Tags</a> Search for tags, view tag info and get media by tag</li>"
                 "</ul>")
@@ -185,6 +186,28 @@ def user_search(session):
         users = []
         for user in user_search:
             users.append('<li><img src="%s">%s</li>' % (user.profile_picture,user.username))
+        content += ''.join(users)
+    except Exception, e:
+        print e              
+    return "%s %s <br/>Remaining API Calls = %s/%s" % (get_nav(),content,api.x_ratelimit_remaining,api.x_ratelimit)
+
+@route('/user_follows')
+def user_follows(session): 
+    access_token = session.get('access_token')
+    content = "<h2>User Follows</h2>"
+    if not access_token:
+        return 'Missing Access Token'
+    try:
+        api = client.InstagramAPI(access_token=access_token)
+        # 25025320 is http://instagram.com/instagram
+        user_follows, next = api.user_follows('25025320')
+        users = []
+        for user in user_follows:
+            users.append('<li><img src="%s">%s</li>' % (user.profile_picture,user.username))
+        while next:
+            user_follows, next = api.user_follows(with_next_url=next)
+            for user in user_follows:
+                users.append('<li><img src="%s">%s</li>' % (user.profile_picture,user.username))
         content += ''.join(users)
     except Exception, e:
         print e              
