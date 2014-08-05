@@ -51,7 +51,7 @@ from instagram.client import InstagramAPI
 
 access_token = "YOUR_ACCESS_TOKEN"
 api = InstagramAPI(access_token=access_token)
-recent_media, next = api.user_recent_media(user_id="userid", count=10)
+recent_media, next_ = api.user_recent_media(user_id="userid", count=10)
 for media in recent_media:
    print media.caption.text
 ```
@@ -115,7 +115,7 @@ See the endpoints docs for more on these methods: http://instagr.am/developer/en
 The methods with a * return two values, where the second is a pagination parameter. Here's an example of retrieving recent media:
 
 ``` python
-recent_media, next = api.user_recent_media()
+recent_media, next_ = api.user_recent_media()
 photos = []
 for media in recent_media:
     photos.append('<img src="%s"/>' % media.images['thumbnail'].url)
