@@ -174,7 +174,7 @@ Tags: http://instagr.am/developer/endpoints/tags/
 
 ``` python
 api.tag(tag_name) 
-api.tag_recent_media(count, max_id, tag_name)*
+api.tag_recent_media(count, max_tag_id, tag_name)*
 api.tag_search(q, count)*
 ```
  

@@ -208,7 +208,7 @@ class InstagramAPITests(unittest.TestCase):
         self.api.location(1)
 
     def test_tag_recent_media(self):
-        self.api.tag_recent_media(tag_name='1', count=5)
+        self.api.tag_recent_media(tag_name='1', count=5, max_tag_id='12345')
 
     def test_tag_recent_media_paginated(self):
         for page in self.api.tag_recent_media(tag_name='1', count=5, as_generator=True, max_pages=2):
