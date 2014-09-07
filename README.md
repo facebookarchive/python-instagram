@@ -192,6 +192,18 @@ Geographies: http://instagr.am/developer/endpoints/geographies/
 api.geography_recent_media(count, max_id, geography_id)*
 ```
 
+Error handling
+------
+Importing the bind module allows handling of specific error status codes. An example is provided below:
+``` python
+from instagram.bind import InstagramAPIError
+
+try:
+   # your code goes here
+except InstagramAPIError as e:
+   if (e.status_code == 400):
+      print "\nUser is set to private."
+```
 Sample app
 ------
 This repository includes a one-file sample app that uses the bottle framework and demonstrates
