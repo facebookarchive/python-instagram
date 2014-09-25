@@ -1,4 +1,5 @@
-from helper import timestamp_to_datetime
+from .helper import timestamp_to_datetime
+import six
 
 
 class ApiModel(object):
@@ -12,7 +13,17 @@ class ApiModel(object):
         return cls(**entry_str_dict)
 
     def __repr__(self):
-        return unicode(self).encode('utf8')
+        return str(self)
+        # if six.PY2:
+        #     return six.text_type(self).encode('utf8')
+        # else:
+        #     return self.encode('utf8')
+
+    def __str__(self):
+        if six.PY3:
+            return self.__unicode__()
+        else:
+            return unicode(self).encode('utf-8')
 
 
 class Image(ApiModel):
@@ -36,7 +47,7 @@ class Media(ApiModel):
 
     def __init__(self, id=None, **kwargs):
         self.id = id
-        for key, value in kwargs.iteritems():
+        for key, value in six.iteritems(kwargs):
             setattr(self, key, value)
 
     def get_standard_resolution_url(self):
@@ -67,12 +78,12 @@ class Media(ApiModel):
         new_media.user = User.object_from_dictionary(entry['user'])
 
         new_media.images = {}
-        for version, version_info in entry['images'].iteritems():
+        for version, version_info in six.iteritems(entry['images']):
             new_media.images[version] = Image.object_from_dictionary(version_info)
 
         if new_media.type == 'video':
             new_media.videos = {}
-            for version, version_info in entry['videos'].iteritems():
+            for version, version_info in six.iteritems(entry['videos']):
                 new_media.videos[version] = Video.object_from_dictionary(version_info)
 
         if 'user_has_liked' in entry:
@@ -113,14 +124,14 @@ class MediaShortcode(Media):
 
     def __init__(self, shortcode=None, **kwargs):
         self.shortcode = shortcode
-        for key, value in kwargs.iteritems():
+        for key, value in six.iteritems(kwargs):
             setattr(self, key, value)
 
 
 class Tag(ApiModel):
     def __init__(self, name, **kwargs):
         self.name = name
-        for key, value in kwargs.iteritems():
+        for key, value in six.iteritems(kwargs):
             setattr(self, key, value)
 
     def __unicode__(self):
@@ -129,7 +140,7 @@ class Tag(ApiModel):
 
 class Comment(ApiModel):
     def __init__(self, *args, **kwargs):
-        for key, value in kwargs.iteritems():
+        for key, value in six.iteritems(kwargs):
             setattr(self, key, value)
 
     @classmethod
@@ -156,7 +167,7 @@ class Point(ApiModel):
 class Location(ApiModel):
     def __init__(self, id, *args, **kwargs):
         self.id = str(id)
-        for key, value in kwargs.iteritems():
+        for key, value in six.iteritems(kwargs):
             setattr(self, key, value)
 
     @classmethod
@@ -178,7 +189,7 @@ class User(ApiModel):
 
     def __init__(self, id, *args, **kwargs):
         self.id = id
-        for key, value in kwargs.iteritems():
+        for key, value in six.iteritems(kwargs):
             setattr(self, key, value)
 
     def __unicode__(self):
