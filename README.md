@@ -1,3 +1,5 @@
+[![Build Status](https://api.travis-ci.org/Instagram/python-instagram.svg)](https://api.travis-ci.org/Instagram/python-instagram.svg)
+
 python-instagram
 ======
 A Python client for the Instagram REST and Search APIs
