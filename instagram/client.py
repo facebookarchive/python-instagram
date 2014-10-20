@@ -158,7 +158,7 @@ class InstagramAPI(oauth2.OAuth2API):
 
     tag_recent_media = bind_method(
                 path="/tags/{tag_name}/media/recent",
-                accepts_parameters=MEDIA_ACCEPT_PARAMETERS + ['tag_name'],
+                accepts_parameters=['count', 'max_tag_id', 'tag_name'],
                 root_class=Media,
                 paginates=True)
 
