@@ -1,4 +1,4 @@
-[![Build Status](https://api.travis-ci.org/Instagram/python-instagram.svg)](https://api.travis-ci.org/Instagram/python-instagram.svg)
+[![Build Status](https://api.travis-ci.org/Instagram/python-instagram.svg)](https://travis-ci.org/Instagram/python-instagram)
 
 python-instagram
 ======
