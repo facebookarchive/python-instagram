@@ -108,7 +108,7 @@ class OAuth2AuthExchangeRequest(object):
         http_object = Http(disable_ssl_certificate_validation=True)
         url = self.api.access_token_url
         response, content = http_object.request(url, method="POST", body=data)
-        parsed_content = simplejson.loads(content)
+        parsed_content = simplejson.loads(content.decode())
         if int(response['status']) != 200:
             raise OAuth2AuthExchangeError(parsed_content.get("error_message", ""))
         return parsed_content['access_token'], parsed_content['user']

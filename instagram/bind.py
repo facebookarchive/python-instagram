@@ -122,23 +122,19 @@ def bind_method(**config):
                 ips = self.api.client_ips
                 signature = hmac.new(secret, ips, sha256).hexdigest()
                 headers['X-Insta-Forwarded-For'] = '|'.join([ips, signature])
-
             response, content = OAuth2Request(self.api).make_request(url, method=method, body=body, headers=headers)
             if response['status'] == '503' or response['status'] == '429':
                 raise InstagramAPIError(response['status'], "Rate limited", "Your client is making too many request per second")
-
             try:
-                content_obj = simplejson.loads(content)
+                content_obj = simplejson.loads(content.decode())
             except ValueError:
                 raise InstagramClientError('Unable to parse response, not valid JSON.', status_code=response['status'])
-
             # Handle OAuthRateLimitExceeded from Instagram's Nginx which uses different format to documented api responses
             if 'meta' not in content_obj:
                 if content_obj.get('code') == 420 or content_obj.get('code') == 429:
                     error_message = content_obj.get('error_message') or "Your client is making too many request per second"
                     raise InstagramAPIError(content_obj.get('code'), "Rate limited", error_message)
                 raise InstagramAPIError(content_obj.get('code'), content_obj.get('error_type'), content_obj.get('error_message'))
-
             api_responses = []
             status_code = content_obj['meta']['code']
             self.api.x_ratelimit_remaining = response.get("x-ratelimit-remaining",None)
