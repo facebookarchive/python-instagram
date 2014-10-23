@@ -1,16 +1,19 @@
 import urllib
-from oauth2 import OAuth2Request
+from .oauth2 import OAuth2Request
 import re
-from json_import import simplejson
+from .json_import import simplejson
 import hmac
 from hashlib import sha256
+import six
+from six.moves.urllib.parse import quote
+import sys
 
 re_path_template = re.compile('{\w+}')
 
 
 def encode_string(value):
     return value.encode('utf-8') \
-                        if isinstance(value, unicode) else str(value)
+        if isinstance(value, six.text_type) else str(value)
 
 
 class InstagramClientError(Exception):
@@ -76,7 +79,7 @@ def bind_method(**config):
                 except IndexError:
                     raise InstagramClientError("Too many arguments supplied")
 
-            for key, value in kwargs.iteritems():
+            for key, value in six.iteritems(kwargs):
                 if value is None:
                     continue
                 if key in self.parameters:
@@ -91,7 +94,7 @@ def bind_method(**config):
                 name = variable.strip('{}')
 
                 try:
-                    value = urllib.quote(self.parameters[name])
+                    value = quote(self.parameters[name])
                 except KeyError:
                     raise Exception('No parameter value found for path variable: %s' % name)
                 del self.parameters[name]
@@ -119,23 +122,19 @@ def bind_method(**config):
                 ips = self.api.client_ips
                 signature = hmac.new(secret, ips, sha256).hexdigest()
                 headers['X-Insta-Forwarded-For'] = '|'.join([ips, signature])
-
             response, content = OAuth2Request(self.api).make_request(url, method=method, body=body, headers=headers)
             if response['status'] == '503' or response['status'] == '429':
                 raise InstagramAPIError(response['status'], "Rate limited", "Your client is making too many request per second")
-
             try:
-                content_obj = simplejson.loads(content)
+                content_obj = simplejson.loads(content.decode())
             except ValueError:
                 raise InstagramClientError('Unable to parse response, not valid JSON.', status_code=response['status'])
-
             # Handle OAuthRateLimitExceeded from Instagram's Nginx which uses different format to documented api responses
-            if not content_obj.has_key('meta'):
+            if 'meta' not in content_obj:
                 if content_obj.get('code') == 420 or content_obj.get('code') == 429:
                     error_message = content_obj.get('error_message') or "Your client is making too many request per second"
                     raise InstagramAPIError(content_obj.get('code'), "Rate limited", error_message)
                 raise InstagramAPIError(content_obj.get('code'), content_obj.get('error_type'), content_obj.get('error_message'))
-
             api_responses = []
             status_code = content_obj['meta']['code']
             self.api.x_ratelimit_remaining = response.get("x-ratelimit-remaining",None)
@@ -166,7 +165,7 @@ def bind_method(**config):
         def _paginator_with_url(self, url, method="GET", body=None, headers=None):
             headers = headers or {}
             pages_read = 0
-            while url and (pages_read < self.max_pages or self.max_pages is None):
+            while url and (self.max_pages is None or pages_read < self.max_pages):
                 api_responses, url = self._do_api_request(url, method, body, headers)
                 pages_read += 1
                 yield api_responses, url

@@ -2,7 +2,7 @@
 
 python-instagram
 ======
-A Python client for the Instagram REST and Search APIs
+A Python 2/3 client for the Instagram REST and Search APIs
 
 Installation
 -----
@@ -12,6 +12,7 @@ Requires
 -----
   * httplib2
   * simplejson
+  * six
 
 
 Instagram REST and Search APIs

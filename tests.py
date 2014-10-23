@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 
 import types
+import six
 try:
     import simplejson as json
 except ImportError:
     import json
 import getpass
 import unittest
-import urlparse
+from six.moves.urllib.parse import urlparse, parse_qs
 from instagram import client, oauth2, InstagramAPIError
 
 TEST_AUTH = False
@@ -26,8 +27,8 @@ class MockHttp(object):
             'status':'400'
         }, "{}"
 
-        parsed = urlparse.urlparse(url)
-        options = urlparse.parse_qs(parsed.query)
+        parsed = urlparse(url)
+        options = parse_qs(parsed.query)
 
         fn_name = str(active_call)
         if fn_name == 'get_authorize_login_url':
@@ -43,6 +44,7 @@ class MockHttp(object):
 
         fl = open('fixtures/%s.json' % fn_name)
         content = fl.read()
+        fl.close()
         json_content = json.loads(content)
         status = json_content['meta']['code']
         return {
@@ -67,7 +69,7 @@ class InstagramAuthTests(unittest.TestCase):
     def test_authorize_login_url(self):
         redirect_uri = self.unauthenticated_api.get_authorize_login_url()
         assert redirect_uri
-        print "Please visit and authorize at:\n%s" % redirect_uri
+        print("Please visit and authorize at:\n%s" % redirect_uri)
         code = raw_input("Paste received code (blank to skip): ").strip()
         if not code:
             return
@@ -129,7 +131,7 @@ class InstagramAPITests(unittest.TestCase):
     def test_generator_user_feed_all(self):
         generator = self.api.user_media_feed(as_generator=True, max_pages=None)
         for i in range(10):
-            page = generator.next()
+            page = six.advance_iterator(generator)
             str(generator)
 
         generator = self.api.user_media_feed(as_generator=True, max_pages=0)
@@ -145,34 +147,34 @@ class InstagramAPITests(unittest.TestCase):
         self.assertTrue( all( [hasattr(obj, 'type') for obj in media] ) )
 
         image = media[0]
-        self.assertEquals(
+        self.assertEqual(
                 image.get_standard_resolution_url(),
                 "http://distillery-dev.s3.amazonaws.com/media/2011/02/02/1ce5f3f490a640ca9068e6000c91adc5_7.jpg")
 
-        self.assertEquals(
+        self.assertEqual(
                 image.get_low_resolution_url(),
                 "http://distillery-dev.s3.amazonaws.com/media/2011/02/02/1ce5f3f490a640ca9068e6000c91adc5_6.jpg")
 
-        self.assertEquals(
+        self.assertEqual(
                 image.get_thumbnail_url(),
                 "http://distillery-dev.s3.amazonaws.com/media/2011/02/02/1ce5f3f490a640ca9068e6000c91adc5_5.jpg")
 
-        self.assertEquals( False, hasattr(image, 'videos') )
+        self.assertEqual( False, hasattr(image, 'videos') )
 
         video = media[1]
-        self.assertEquals(
+        self.assertEqual(
                 video.get_standard_resolution_url(),
                 video.videos['standard_resolution'].url)
 
-        self.assertEquals(
+        self.assertEqual(
                 video.get_standard_resolution_url(),
                 "http://distilleryvesper9-13.ak.instagram.com/090d06dad9cd11e2aa0912313817975d_101.mp4")
 
-        self.assertEquals(
+        self.assertEqual(
                 video.get_low_resolution_url(),
                 "http://distilleryvesper9-13.ak.instagram.com/090d06dad9cd11e2aa0912313817975d_102.mp4")
 
-        self.assertEquals(
+        self.assertEqual(
                 video.get_thumbnail_url(),
                 "http://distilleryimage2.ak.instagram.com/11f75f1cd9cc11e2a0fd22000aa8039a_5.jpg")
 

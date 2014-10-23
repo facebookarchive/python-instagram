@@ -1,7 +1,8 @@
-from json_import import simplejson
-import urllib
+from .json_import import simplejson
+from six.moves.urllib.parse import urlencode
 from httplib2 import Http
 import mimetypes
+import six
 
 
 class OAuth2AuthExchangeError(Exception):
@@ -67,7 +68,7 @@ class OAuth2AuthExchangeRequest(object):
         }
         if scope:
             client_params.update(scope=' '.join(scope))
-        url_params = urllib.urlencode(client_params)
+        url_params = urlencode(client_params)
         return "%s?%s" % (self.api.authorize_url, url_params)
 
     def _data_for_exchange(self, code=None, username=None, password=None, scope=None, user_id=None):
@@ -87,7 +88,7 @@ class OAuth2AuthExchangeRequest(object):
                 client_params.update(scope=' '.join(scope))
         elif user_id:
             client_params.update(user_id=user_id)
-        return urllib.urlencode(client_params)
+        return urlencode(client_params)
 
     def get_authorize_url(self, scope=None):
         return self._url_for_authorize(scope=scope)
@@ -107,7 +108,7 @@ class OAuth2AuthExchangeRequest(object):
         http_object = Http(disable_ssl_certificate_validation=True)
         url = self.api.access_token_url
         response, content = http_object.request(url, method="POST", body=data)
-        parsed_content = simplejson.loads(content)
+        parsed_content = simplejson.loads(content.decode())
         if int(response['status']) != 200:
             raise OAuth2AuthExchangeError(parsed_content.get("error_message", ""))
         return parsed_content['access_token'], parsed_content['user']
@@ -137,7 +138,7 @@ class OAuth2Request(object):
         return (self._full_url(path, include_secret) + self._full_query_with_params(params))
 
     def _full_query_with_params(self, params):
-        params = ("&" + urllib.urlencode(params)) if params else ""
+        params = ("&" + urlencode(params)) if params else ""
         return params
 
     def _auth_query(self, include_secret=False):
@@ -150,7 +151,7 @@ class OAuth2Request(object):
             return base
 
     def _post_body(self, params):
-        return urllib.urlencode(params)
+        return urlencode(params)
 
     def _encode_multipart(params, files):
         boundary = "MuL7Ip4rt80uND4rYF0o"
@@ -208,5 +209,7 @@ class OAuth2Request(object):
         headers = headers or {}
         if not 'User-Agent' in headers:
             headers.update({"User-Agent": "%s Python Client" % self.api.api_name})
-        http_obj = Http(disable_ssl_certificate_validation=True)
+        # https://github.com/jcgregorio/httplib2/issues/173
+        # bug in httplib2 w/ Python 3 and disable_ssl_certificate_validation=True
+        http_obj = Http() if six.PY3 else Http(disable_ssl_certificate_validation=True)        
         return http_obj.request(url, method, body=body, headers=headers)
