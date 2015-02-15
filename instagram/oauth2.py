@@ -153,7 +153,7 @@ class OAuth2Request(object):
     def _post_body(self, params):
         return urlencode(params)
 
-    def _encode_multipart(params, files):
+    def _encode_multipart(self, params, files):
         boundary = "MuL7Ip4rt80uND4rYF0o"
 
         def get_content_type(file_name):
