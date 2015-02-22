@@ -225,7 +225,6 @@ class Position(ApiModel):
 
     @classmethod
     def object_from_dictionary(cls, entry):
-
         if 'x' in entry:
             return Position(entry['x'], entry['y'])
 
