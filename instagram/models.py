@@ -100,7 +100,6 @@ class Media(ApiModel):
             new_media.comments.append(Comment.object_from_dictionary(comment))
 
         new_media.users_in_photo = []
-
         if entry.get('users_in_photo'):
             for user_in_photo in entry['users_in_photo']:
                 new_media.users_in_photo.append(UserInPhoto.object_from_dictionary(user_in_photo))
