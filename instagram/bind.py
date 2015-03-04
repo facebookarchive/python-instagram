@@ -53,6 +53,7 @@ def bind_method(**config):
         response_type = config.get("response_type", "list")
         include_secret = config.get("include_secret", False)
         objectify_response = config.get("objectify_response", True)
+        exclude_format = config.get('exclude_format', False)
 
         def __init__(self, api, *args, **kwargs):
             self.api = api
@@ -101,7 +102,7 @@ def bind_method(**config):
 
                 self.path = self.path.replace(variable, value)
 
-            if self.api.format:
+            if self.api.format and not self.exclude_format:
                 self.path = self.path + '.%s' % self.api.format
 
         def _build_pagination_info(self, content_obj):
