@@ -26,7 +26,7 @@ class InstagramAPI(oauth2.OAuth2API):
             self.format = format
         else:
             raise Exception("Unsupported format")
-        super(InstagramAPI, self).__init__(*args, **kwargs)
+        super(InstagramAPI, self).__init__(**kwargs)
 
     media_popular = bind_method(
                 path="/media/popular",

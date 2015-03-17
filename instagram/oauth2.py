@@ -1,8 +1,10 @@
 from .json_import import simplejson
 from six.moves.urllib.parse import urlencode
 from httplib2 import Http
+from hashlib import sha256
 import mimetypes
 import six
+import hmac
 
 
 class OAuth2AuthExchangeError(Exception):
@@ -118,6 +120,12 @@ class OAuth2Request(object):
     def __init__(self, api):
         self.api = api
 
+    def _generate_sig(self, endpoint, params, secret):
+        sig = endpoint
+        for key in sorted(params.keys()):
+            sig += '|%s=%s' % (key, params[key])
+        return  hmac.new(secret, sig, sha256).hexdigest()
+
     def url_for_get(self, path, parameters):
         return self._full_url_with_params(path, parameters)
 
@@ -127,15 +135,18 @@ class OAuth2Request(object):
     def post_request(self, path, **kwargs):
         return self.make_request(self.prepare_request("POST", path, kwargs))
 
-    def _full_url(self, path, include_secret=False):
-        return "%s://%s%s%s%s" % (self.api.protocol,
+    def _full_url(self, path, include_secret=False, include_signed_request=True):
+        return "%s://%s%s%s%s%s" % (self.api.protocol,
                                   self.api.host,
                                   self.api.base_path,
                                   path,
-                                  self._auth_query(include_secret))
+                                  self._auth_query(include_secret),
+                                  self._signed_request(path, {}, include_signed_request, include_secret))
 
-    def _full_url_with_params(self, path, params, include_secret=False):
-        return (self._full_url(path, include_secret) + self._full_query_with_params(params))
+    def _full_url_with_params(self, path, params, include_secret=False, include_signed_request=True):
+        return (self._full_url(path, include_secret) + 
+                self._full_query_with_params(params) +
+                self._signed_request(path, params, include_signed_request, include_secret))
 
     def _full_query_with_params(self, params):
         params = ("&" + urlencode(params)) if params else ""
@@ -149,6 +160,18 @@ class OAuth2Request(object):
             if include_secret:
                 base += "&client_secret=%s" % (self.api.client_secret)
             return base
+
+    def _signed_request(self, path, params, include_signed_request, include_secret):
+        if include_signed_request:
+            if self.api.access_token:
+                params['access_token'] = self.api.access_token
+            elif self.api.client_id:
+                params['client_id'] = self.api.client_id
+            if include_secret and self.api.client_secret:
+                params['client_secret'] = self.api.client_secret
+            return "&sig=%s" % self._generate_sig(path, params, self.api.client_secret)
+        else:
+            return ''
 
     def _post_body(self, params):
         return urlencode(params)

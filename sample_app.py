@@ -64,9 +64,8 @@ def on_callback():
         access_token, user_info = unauthenticated_api.exchange_code_for_access_token(code)
         if not access_token:
             return 'Could not get access token'
-        api = client.InstagramAPI(access_token=access_token)
+        api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
         request.session['access_token'] = access_token
-        print ("access token="+access_token)
     except Exception as e:
         print(e)
     return get_nav()
@@ -78,7 +77,7 @@ def on_recent():
     if not access_token:
         return 'Missing Access Token'
     try:
-        api = client.InstagramAPI(access_token=access_token)
+        api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
         recent_media, next = api.user_recent_media()
         photos = []
         for media in recent_media:
@@ -87,7 +86,6 @@ def on_recent():
                 photos.append('<video controls width height="150"><source type="video/mp4" src="%s"/></video>' % (media.get_standard_resolution_url()))
             else:
                 photos.append('<img src="%s"/>' % (media.get_low_resolution_url()))
-            print(media)
             photos.append("<br/> <a href='/media_like/%s'>Like</a>  <a href='/media_unlike/%s'>Un-Like</a>  LikesCount=%s</div>" % (media.id,media.id,media.like_count))
         content += ''.join(photos)
     except Exception as e:
@@ -97,14 +95,14 @@ def on_recent():
 @route('/media_like/<id>')
 def media_like(id): 
     access_token = request.session['access_token']
-    api = client.InstagramAPI(access_token=access_token)
+    api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
     api.like_media(media_id=id)
     redirect("/recent")
 
 @route('/media_unlike/<id>')
 def media_unlike(id): 
     access_token = request.session['access_token']
-    api = client.InstagramAPI(access_token=access_token)
+    api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
     api.unlike_media(media_id=id)
     redirect("/recent")
 
@@ -115,7 +113,7 @@ def on_user_media_feed():
     if not access_token:
         return 'Missing Access Token'
     try:
-        api = client.InstagramAPI(access_token=access_token)
+        api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
         media_feed, next = api.user_media_feed()
         photos = []
         for media in media_feed:
@@ -138,7 +136,7 @@ def location_recent_media():
     if not access_token:
         return 'Missing Access Token'
     try:
-        api = client.InstagramAPI(access_token=access_token)
+        api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
         recent_media, next = api.location_recent_media(location_id=514276)
         photos = []
         for media in recent_media:
@@ -155,7 +153,7 @@ def media_search():
     if not access_token:
         return 'Missing Access Token'
     try:
-        api = client.InstagramAPI(access_token=access_token)
+        api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
         media_search = api.media_search(lat="37.7808851",lng="-122.3948632",distance=1000)
         photos = []
         for media in media_search:
@@ -172,7 +170,7 @@ def media_popular():
     if not access_token:
         return 'Missing Access Token'
     try:
-        api = client.InstagramAPI(access_token=access_token)
+        api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
         media_search = api.media_popular()
         photos = []
         for media in media_search:
@@ -189,7 +187,7 @@ def user_search():
     if not access_token:
         return 'Missing Access Token'
     try:
-        api = client.InstagramAPI(access_token=access_token)
+        api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
         user_search = api.user_search(q="Instagram")
         users = []
         for user in user_search:
@@ -206,7 +204,7 @@ def user_follows():
     if not access_token:
         return 'Missing Access Token'
     try:
-        api = client.InstagramAPI(access_token=access_token)
+        api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
         # 25025320 is http://instagram.com/instagram
         user_follows, next = api.user_follows('25025320')
         users = []
@@ -228,7 +226,7 @@ def location_search():
     if not access_token:
         return 'Missing Access Token'
     try:
-        api = client.InstagramAPI(access_token=access_token)
+        api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
         location_search = api.location_search(lat="37.7808851",lng="-122.3948632",distance=1000)
         locations = []
         for location in location_search:
@@ -245,8 +243,8 @@ def tag_search():
     if not access_token:
         return 'Missing Access Token'
     try:
-        api = client.InstagramAPI(access_token=access_token)
-        tag_search, next_tag = api.tag_search(q="catband")
+        api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
+        tag_search, next_tag = api.tag_search(q="backclimateaction")
         tag_recent_media, next = api.tag_recent_media(tag_name=tag_search[0].name)
         photos = []
         for tag_media in tag_recent_media:
