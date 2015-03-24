@@ -207,6 +207,15 @@ except InstagramAPIError as e:
    if (e.status_code == 400):
       print "\nUser is set to private."
 ```
+
+Trouble Shooting
+------
+
+If you get an error of a module not being defined during the Instagram import call, this might update a necessary package.
+```
+sudo pip install --upgrade six
+```
+
 Sample app
 ------
 This repository includes a one-file sample app that uses the bottle framework and demonstrates
