@@ -19,7 +19,8 @@ class SubscriptionVerifyError(SubscriptionError):
 
 class SubscriptionsReactor(object):
 
-    callbacks = {}
+    def __init__(self):
+        self.callbacks = {}
 
     def _process_update(self, update):
         object_callbacks = self.callbacks.get(update['object'], [])
