@@ -126,6 +126,15 @@ for media in recent_media:
     photos.append('<img src="%s"/>' % media.images['thumbnail'].url)
 ```            
 
+And an example of exhaustively pursuing a paginated endpoint:
+
+``` python
+follows, next_ = api.user_follows()
+while next_:
+    more_follows, next_ = api.user_follows(with_next_url=next_)
+    follows.extend(more_follows)
+```
+
 Users: http://instagr.am/developer/endpoints/users/
     
 ``` python
