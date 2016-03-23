@@ -1,3 +1,9 @@
+- - -
+
+**_This project is not actively maintained. Proceed at your own risk!_**
+
+- - - 
+
 [![Build Status](https://api.travis-ci.org/Instagram/python-instagram.svg)](https://travis-ci.org/Instagram/python-instagram)
 
 python-instagram
