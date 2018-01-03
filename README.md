@@ -272,10 +272,6 @@ bug report, please include a [Gist](http://gist.github.com/) that includes a sta
 details that may be necessary to reproduce the bug, including your version number, and
 operating system. Ideally, a bug report should include a pull request with failing specs.
 
-Instagram has a [bounty program](https://www.facebook.com/whitehat/) for the safe
-disclosure of security bugs. In those cases, please go through the process
-outlined on that page and do not file a public issue.
-
 
 Submitting a Pull Request
 -------------------------
